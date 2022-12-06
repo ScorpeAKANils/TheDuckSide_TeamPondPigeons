@@ -53,6 +53,7 @@ public class TreeGenerator : MonoBehaviour
             foreach (GameObject treePos in TreePos)
             {
                 TreesGenerated = true;
+                kindOfTree = Random.Range(0, 5); 
                 maxTrees = maxPines + maxOaks;
 
                 if (kindOfTree == 0 | kindOfTree == 4 && PineCount < maxPines)
@@ -121,7 +122,7 @@ public class TreeGenerator : MonoBehaviour
 
         GameObject Oak = TreePool.SharedInstance.GetPooledOak();
 
-        kindOfTree = Random.Range(0, 5);
+       
         if (Oak != null)
         {
             TreeSize = Random.Range(50f, 100f);
