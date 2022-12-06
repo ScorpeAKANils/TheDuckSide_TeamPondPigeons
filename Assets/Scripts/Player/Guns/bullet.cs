@@ -12,7 +12,7 @@ public class bullet : MonoBehaviour
             other.GetComponent<EnemyHealth>().GetDamage(damage);
             this.gameObject.SetActive(false);
         }
-        else if(!other.CompareTag("Player"))
+        else if(!other.CompareTag("Player") && !other.CompareTag("Map"))
         {
             this.gameObject.SetActive(false);
         }

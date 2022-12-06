@@ -6,25 +6,26 @@ public class TreeGenerator : MonoBehaviour
 {
 
     [SerializeField] List<GameObject> TreePos = new List<GameObject>();
-    public GameObject[] Tree;
-    int kindOfTree; 
-    [SerializeField] int TreeCount; 
+    int kindOfTree;
+    [SerializeField] int maxPines;
+    [SerializeField] int maxOaks;
+    int maxTrees; 
     int posIndex;
-     float TreeSize;
+    [SerializeField] int PineCount;
+    [SerializeField] int OakCount; 
+    float TreeSize;
+    public bool TreesGenerated = false;
     string tag = "TreePos";
- 
-    Vector3 Size; 
+    List<GameObject> PinesInScene = new List<GameObject>();
+    List<GameObject> OaksInScene = new List<GameObject>();
+
+
+    Vector3 Size;
     // Start is called before the first frame update
 
     private void Start()
     {
         FindChildWithTag(this.gameObject, tag);
-
-   
-
-
-        GeneratedTrees();
-  
     }
 
     GameObject FindChildWithTag(GameObject parent, string tag)
@@ -47,24 +48,127 @@ public class TreeGenerator : MonoBehaviour
     }
     void GeneratedTrees()
     {
-        TreeCount = Random.Range(10, TreePos.Count);
-        for (int i = 0; i <= TreeCount; i++)
+        if (TreesGenerated == false)
         {
-            TreeSize = Random.Range(50f, 100f);
-            Size = new Vector3(TreeSize, TreeSize, TreeSize);
-            kindOfTree = Random.Range(0, Tree.Length - 1);
-            posIndex = Random.Range(0, TreePos.Count);
-            if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
+            foreach (GameObject treePos in TreePos)
             {
-                var tree = Instantiate(Tree[kindOfTree], TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
-                tree.transform.localScale = Size;
-                TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
+                TreesGenerated = true;
+                maxTrees = maxPines + maxOaks;
+
+                if (kindOfTree == 0 | kindOfTree == 4 && PineCount < maxPines)
+                {
+                    GeneratePines();
+                    PineCount++;
+                }
+                else if (kindOfTree == 1 | kindOfTree == 3 && OakCount < maxOaks)
+                {
+                    GenerateOaks();
+                    OakCount++;
+
+                }
+                else
+                {
+
+                }
             }
+    
 
 
         }
-        System.GC.Collect(); 
+        else
+        {
+
+            foreach (GameObject Pine in PinesInScene)
+            {
+                Pine.SetActive(true);
+
+            }
+
+            foreach (GameObject Oak in OaksInScene)
+            {
+                Oak.SetActive(true);
+            }
+        }
+
+
+    }
+    void GeneratePines()
+    {
+        GameObject Pine = TreePool.SharedInstance.GetPooledPine();
+     
+        
+            if (Pine != null)
+            {
+                TreeSize = Random.Range(50f, 100f);
+                Size = new Vector3(TreeSize, TreeSize, TreeSize);
+                posIndex = Random.Range(0, TreePos.Count);
+
+                if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
+                {
+                    Pine.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
+                    Pine.SetActive(true);
+                    Pine.transform.localScale = Size;
+                    PinesInScene.Add(Pine);
+                    TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
+                }
+
+            
+        }
     }
 
+    void GenerateOaks()
+    {
+
+        GameObject Oak = TreePool.SharedInstance.GetPooledOak();
+    
+            kindOfTree = Random.Range(0, 5);
+            if (Oak != null)
+            {
+                TreeSize = Random.Range(50f, 100f);
+                Size = new Vector3(TreeSize, TreeSize, TreeSize);
+                posIndex = Random.Range(0, TreePos.Count);
+
+                if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
+                {
+                    Oak.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
+                    Oak.SetActive(true);
+                    Oak.transform.localScale = Size;
+                    OaksInScene.Add(Oak);
+                    TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
+                }
+
+            }
+        
+
+    }
+    void DespawmTrees()
+    {
+
+        foreach (GameObject Pine in PinesInScene)
+        {
+            Pine.SetActive(false);
+
+        }
+
+        foreach (GameObject Oak in OaksInScene)
+        {
+            Oak.SetActive(false);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GeneratedTrees();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            DespawmTrees();
+        }
+    }
 
 }

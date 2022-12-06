@@ -34,6 +34,7 @@ public class MOVE : MonoBehaviour
         Debug.Log(health.health); 
         //laufen
             Vector3 m_Move = new Vector3(0, 0, Input.GetAxis("Horizontal"));
+        Vector3 m_Jump = new Vector3(0f, 1f, 0f); 
             playerrb.MovePosition(this.transform.position + m_Move * Time.deltaTime * speed);
 
        //spieler dreht sich in lauf richtung
@@ -59,7 +60,7 @@ public class MOVE : MonoBehaviour
         {
              
             isGrounded = false;
-            playerrb.AddForce(Vector3.up * jump, ForceMode.VelocityChange);
+            playerrb.MovePosition(this.transform.position + jump * Time.deltaTime * m_Jump); 
         }
     }
     //groundcheck
