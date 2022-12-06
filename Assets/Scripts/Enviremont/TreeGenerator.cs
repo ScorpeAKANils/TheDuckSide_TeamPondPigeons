@@ -9,10 +9,10 @@ public class TreeGenerator : MonoBehaviour
     int kindOfTree;
     [SerializeField] int maxPines;
     [SerializeField] int maxOaks;
-    int maxTrees; 
+    int maxTrees;
     int posIndex;
     [SerializeField] int PineCount;
-    [SerializeField] int OakCount; 
+    [SerializeField] int OakCount;
     float TreeSize;
     public bool TreesGenerated = false;
     string tag = "TreePos";
@@ -71,7 +71,7 @@ public class TreeGenerator : MonoBehaviour
 
                 }
             }
-    
+
 
 
         }
@@ -95,24 +95,24 @@ public class TreeGenerator : MonoBehaviour
     void GeneratePines()
     {
         GameObject Pine = TreePool.SharedInstance.GetPooledPine();
-     
-        
-            if (Pine != null)
+
+
+        if (Pine != null)
+        {
+            TreeSize = Random.Range(50f, 100f);
+            Size = new Vector3(TreeSize, TreeSize, TreeSize);
+            posIndex = Random.Range(0, TreePos.Count);
+
+            if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
             {
-                TreeSize = Random.Range(50f, 100f);
-                Size = new Vector3(TreeSize, TreeSize, TreeSize);
-                posIndex = Random.Range(0, TreePos.Count);
+                Pine.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
+                Pine.SetActive(true);
+                Pine.transform.localScale = Size;
+                PinesInScene.Add(Pine);
+                TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
+            }
 
-                if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
-                {
-                    Pine.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
-                    Pine.SetActive(true);
-                    Pine.transform.localScale = Size;
-                    PinesInScene.Add(Pine);
-                    TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
-                }
 
-            
         }
     }
 
@@ -120,25 +120,25 @@ public class TreeGenerator : MonoBehaviour
     {
 
         GameObject Oak = TreePool.SharedInstance.GetPooledOak();
-    
-            kindOfTree = Random.Range(0, 5);
-            if (Oak != null)
+
+        kindOfTree = Random.Range(0, 5);
+        if (Oak != null)
+        {
+            TreeSize = Random.Range(50f, 100f);
+            Size = new Vector3(TreeSize, TreeSize, TreeSize);
+            posIndex = Random.Range(0, TreePos.Count);
+
+            if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
             {
-                TreeSize = Random.Range(50f, 100f);
-                Size = new Vector3(TreeSize, TreeSize, TreeSize);
-                posIndex = Random.Range(0, TreePos.Count);
-
-                if (TreePos[posIndex].GetComponent<TreePlaced>().treePlaced == false)
-                {
-                    Oak.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
-                    Oak.SetActive(true);
-                    Oak.transform.localScale = Size;
-                    OaksInScene.Add(Oak);
-                    TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
-                }
-
+                Oak.transform.SetLocalPositionAndRotation(TreePos[posIndex].transform.position, TreePos[posIndex].transform.rotation);
+                Oak.SetActive(true);
+                Oak.transform.localScale = Size;
+                OaksInScene.Add(Oak);
+                TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
             }
-        
+
+        }
+
 
     }
     void DespawmTrees()
