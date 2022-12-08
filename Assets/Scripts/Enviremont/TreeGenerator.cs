@@ -38,13 +38,9 @@ public class TreeGenerator : MonoBehaviour
             {
                 child = transform.gameObject;
                 TreePos.Add(child);
-
             }
         }
-
         return child;
-
-
     }
     void GeneratedTrees()
     {
@@ -53,51 +49,35 @@ public class TreeGenerator : MonoBehaviour
             foreach (GameObject treePos in TreePos)
             {
                 TreesGenerated = true;
-                kindOfTree = Random.Range(0, 5); 
+                kindOfTree = Random.Range(0, 5);
                 maxTrees = maxPines + maxOaks;
 
                 if (kindOfTree == 0 | kindOfTree == 4 && PineCount < maxPines)
                 {
                     GeneratePines();
                     PineCount++;
+
                 }
                 else if (kindOfTree == 1 | kindOfTree == 3 && OakCount < maxOaks)
                 {
                     GenerateOaks();
                     OakCount++;
-
                 }
                 else
                 {
 
                 }
             }
-
-
-
         }
         else
         {
-
-            foreach (GameObject Pine in PinesInScene)
-            {
-                Pine.SetActive(true);
-
-            }
-
-            foreach (GameObject Oak in OaksInScene)
-            {
-                Oak.SetActive(true);
-            }
+            ReactivateTrees();
         }
-
-
     }
+
     void GeneratePines()
     {
         GameObject Pine = TreePool.SharedInstance.GetPooledPine();
-
-
         if (Pine != null)
         {
             TreeSize = Random.Range(50f, 100f);
@@ -112,17 +92,12 @@ public class TreeGenerator : MonoBehaviour
                 PinesInScene.Add(Pine);
                 TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
             }
-
-
         }
     }
 
     void GenerateOaks()
     {
-
         GameObject Oak = TreePool.SharedInstance.GetPooledOak();
-
-       
         if (Oak != null)
         {
             TreeSize = Random.Range(50f, 100f);
@@ -137,18 +112,27 @@ public class TreeGenerator : MonoBehaviour
                 OaksInScene.Add(Oak);
                 TreePos[posIndex].GetComponent<TreePlaced>().treePlaced = true;
             }
+        }
+    }
 
+    void ReactivateTrees()
+    {
+        foreach (GameObject Pine in PinesInScene)
+        {
+            Pine.SetActive(true);
         }
 
-
+        foreach (GameObject Oak in OaksInScene)
+        {
+            Oak.SetActive(true);
+        }
     }
+
     void DespawmTrees()
     {
-
         foreach (GameObject Pine in PinesInScene)
         {
             Pine.SetActive(false);
-
         }
 
         foreach (GameObject Oak in OaksInScene)
@@ -156,6 +140,7 @@ public class TreeGenerator : MonoBehaviour
             Oak.SetActive(false);
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -171,5 +156,4 @@ public class TreeGenerator : MonoBehaviour
             DespawmTrees();
         }
     }
-
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform[] WayPoints;
     int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
     [SerializeField] Transform Player;
-    Vector3 playerPos; 
+    Vector3 PlayerPos; 
     //geschwindigkeit gegner 
     [SerializeField] float speed;
     //legt fest ob der gegner angreift 
@@ -18,37 +19,39 @@ public class EnemyMove : MonoBehaviour
     //schaden den der gegner macht 
     float damage = 1f;
 
+
+
     private void Update()
     {
-        playerPos = new Vector3(-20.3f, 9.9f, Player.position.z);
+        //PlayerPos = new Vector3(Player.position.x, 0, 0); 
     }
-
 
     void FixedUpdate()
     {
       
         //abfrage, ob der gegner schom am weg punkt ist
-        if (this.transform.position != WayPoints[index].transform.position && !isOnPoint | attack==false)
+        if (transform.position != WayPoints[index].transform.position && !isOnPoint && attack==false)
         {
             //wenn nicht, dann soll er dahin gehen 
             moveToPos();
         }
         //wenn der Spieler in der nähe, greife an
-        if (Vector3.Distance(this.transform.position, playerPos) < 30f &&attack==false)
+        if (Vector3.Distance(transform.position, Player.transform.position) < 30f &&attack==false)
         {
+          
             attack = true;
           
         }
 
         //gegner greift an
-        if (attack)
+        if(attack)
         {
-            
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, speed);
+            Debug.Log("auf in die schlacht");
+            transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, speed); 
             
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
-        if (Vector3.Distance(this.transform.position, Player.position) > 55f)
+        if (Vector3.Distance(transform.position, Player.transform.position) > 55f)
         {
             attack = false; 
         }

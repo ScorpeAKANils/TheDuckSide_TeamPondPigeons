@@ -18,11 +18,8 @@ public class TreePool : MonoBehaviour
     private void Awake()
     {
         SharedInstance = this;
-
-     
-
-
     }
+
     void Start()
     {
         //spawnen und poolen der Bäume:
@@ -35,7 +32,6 @@ public class TreePool : MonoBehaviour
             Pine.SetActive(false);
             m_PinePool.Add(Pine);
         }
-
 
         m_OakPool = new List<GameObject>();
         GameObject Oak;

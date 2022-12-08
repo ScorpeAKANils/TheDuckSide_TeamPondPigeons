@@ -13,7 +13,7 @@ public class MOVE : MonoBehaviour
     [SerializeField]bool isGrounded = true;
     Rigidbody playerrb;
     Animator anim;
-    Health health; 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,7 @@ public class MOVE : MonoBehaviour
         moveLeft = new Vector3(0, 270, 0);
         playerrb = this.GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        health = GetComponent<Health>();
+     
 
 
     }
@@ -30,8 +30,7 @@ public class MOVE : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        health.health++; 
-        Debug.Log(health.health); 
+      
         //laufen
             Vector3 m_Move = new Vector3(0, 0, Input.GetAxis("Horizontal"));
         Vector3 m_Jump = new Vector3(0f, 1f, 0f); 
