@@ -6,6 +6,7 @@ public class GunUpDown : MonoBehaviour
 {
 
     float mouseX;
+    [SerializeField] float LockRot = 80f; 
     float xRotation; 
     [SerializeField] float sensitivity = 2f;
     // Start is called before the first frame update
@@ -19,7 +20,7 @@ public class GunUpDown : MonoBehaviour
     {
         mouseX = Input.GetAxis("Mouse Y") * sensitivity; 
         xRotation +=mouseX;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
+        xRotation = Mathf.Clamp(xRotation, -LockRot, LockRot);
         transform.localRotation = Quaternion.Euler( -0f, 0f, xRotation);
     }
 }

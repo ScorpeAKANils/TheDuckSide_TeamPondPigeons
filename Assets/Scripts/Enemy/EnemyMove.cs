@@ -12,29 +12,39 @@ public class EnemyMove : MonoBehaviour
     Vector3 PlayerPos; 
     //geschwindigkeit gegner 
     [SerializeField] float speed;
-    //legt fest ob der gegner angreift 
+    //legt fest ob der gegner angreift
+    Vector3 lookAtPlayer;
     bool attack = false;
     //ist der Gegner am Waypoint angekommen? 
     bool isOnPoint = false;
     //schaden den der gegner macht 
     float damage = 1f;
-
-
+   [SerializeField] float rotationMod; 
+    
+    [SerializeField] float rotSpeed = 20; 
+ 
 
     private void Update()
     {
-        //PlayerPos = new Vector3(Player.position.x, 0, 0); 
+         
+        PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
+        lookAtPlayer = Player.transform.position - transform.position;
+
+        /*StareDownPlayer();*/
+        //lookAtPlayer = new Vector3(Player.rotation.x, Player.rotation.y, Player.rotation.z); 
     }
 
     void FixedUpdate()
     {
-      
+        
         //abfrage, ob der gegner schom am weg punkt ist
         if (transform.position != WayPoints[index].transform.position && !isOnPoint && attack==false)
         {
             //wenn nicht, dann soll er dahin gehen 
             moveToPos();
+            
         }
+
         //wenn der Spieler in der nähe, greife an
         if (Vector3.Distance(transform.position, Player.transform.position) < 30f &&attack==false)
         {
@@ -47,8 +57,8 @@ public class EnemyMove : MonoBehaviour
         if(attack)
         {
             Debug.Log("auf in die schlacht");
-            transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, speed); 
-            
+            transform.position = Vector3.MoveTowards(transform.position,PlayerPos, speed);
+            this.transform.LookAt(lookAtPlayer, Vector3.up);
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
         if (Vector3.Distance(transform.position, Player.transform.position) > 55f)
@@ -66,29 +76,41 @@ public class EnemyMove : MonoBehaviour
 
             case 0:
                 index = 1;
-                isOnPoint = false; 
+                isOnPoint = false;
+                transform.Rotate(0, 180, 0);
                 break;
             case 1:
                 index = 0;
                 isOnPoint = false;
+                transform.Rotate(0, 180, 0);
                 break;
                  
 
         }
+      
         //laufe zur nächsten position 
         moveToPos(); 
 
     }
-
+    /*void StareDownPlayer()
+    {
+        if (attack)
+        {
+            float angle = Mathf.Atan(lookAtPlayer.y) * Mathf.Deg2Rad - rotationMod;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, rotSpeed * Time.fixedDeltaTime);
+        }
+   
+    }*/
     void moveToPos()
-    {       
-      
-    
-      
-            //gegner läuft zum wegpunkt 
-            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed);
-            //wenn der gegner am ziel ist, kriege neuen weg punkt 
-            if (this.transform.position == WayPoints[index].transform.position)
+    {
+
+
+
+        //gegner läuft zum wegpunkt
+        transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed);
+        //wenn der gegner am ziel ist, kriege neuen weg punkt 
+        if (this.transform.position == WayPoints[index].transform.position)
             {
                 isOnPoint = true;
                 GetPos();
@@ -100,10 +122,16 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Health>().GetDamage(damage); 
+           
+            StartCoroutine(damageYield()); 
         }
     }
 
+    IEnumerator damageYield()
+    {
+        Player.gameObject.GetComponent<Health>().GetDamage(damage);
+        yield return new WaitForSeconds(0.5f); 
+    }
 
 }
 

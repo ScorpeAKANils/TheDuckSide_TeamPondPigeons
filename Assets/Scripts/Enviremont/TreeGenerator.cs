@@ -80,7 +80,7 @@ public class TreeGenerator : MonoBehaviour
         GameObject Pine = TreePool.SharedInstance.GetPooledPine();
         if (Pine != null)
         {
-            TreeSize = Random.Range(50f, 100f);
+            TreeSize = Random.Range(200f, 500f);
             Size = new Vector3(TreeSize, TreeSize, TreeSize);
             posIndex = Random.Range(0, TreePos.Count);
 
