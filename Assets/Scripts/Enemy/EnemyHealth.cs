@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log(health); 
         if (health <= 0f)
         {
-            this.gameObject.SetActive(false); 
+            this.gameObject.SetActive(false);
         }
     }
 }

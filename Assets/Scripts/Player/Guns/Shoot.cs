@@ -4,39 +4,51 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    //spawn Point der Bullet
-   [SerializeField] Transform Gun;
-    //bullet Object 
-    [SerializeField]GameObject Bullet;
-    // Start is called before the first frame update
-    bool shootAble = true;
-    float despawnTime = 3f; 
-    [SerializeField] float coolDown = 0.5f; 
-    // Update is called once per frame
+    [SerializeField] Transform Gun; // spawnpoint of the bullet
+    [SerializeField] GameObject Bullet;
+    public float standartReloadTime = 2f;
+    public float reloadTime = 2f;
+    bool reloaded = true;
+    float bulletLifespan = 3f;
+    public bool fullAuto = false;
+    public bool tripleShot = false;
+
     void Update()
     {
-        //abfragen ob Linke Maustaste gedrückt wurde
-        if (Input.GetButton("Fire1") && shootAble)
+        if (reloaded)
         {
-            shoot();
-            StartCoroutine(shootingYield()); 
-        }   
+            if (Input.GetButton("Fire1") || fullAuto)
+            {
+                if (tripleShot) StartCoroutine(tripleshotRoutine());
+                else StartCoroutine(shootRoutine());
+            }
+        }
     }
 
     private void shoot()
     {
-        shootAble = false; 
-        //spawnen der Bullet
-        var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
-        //bullet flug direction geben 
-        bullet.GetComponent<Rigidbody>().AddForce(Gun.right*50f, ForceMode.VelocityChange);
-        Destroy(bullet, despawnTime);
-        
+        var bullet = Instantiate(Bullet, Gun.position, Gun.rotation); //spawn bullet
+        bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange); // accelerate bullet
+        Destroy(bullet, bulletLifespan);
     }
 
-    public IEnumerator shootingYield()
+    public IEnumerator shootRoutine()
     {
-        yield return new WaitForSeconds(coolDown);
-        shootAble=true; 
+        reloaded = false;
+        shoot();
+        yield return new WaitForSeconds(reloadTime);
+        // Debug.Log("ReloadTime: " + reloadTime);
+        reloaded = true;
+    }
+    public IEnumerator tripleshotRoutine()
+    {
+        reloaded = false;
+        for (int i = 0; i < 3; i++)
+        {
+            shoot();
+            yield return new WaitForSeconds(0.07f);
+        }
+        yield return new WaitForSeconds(1.8f);
+        reloaded = true;
     }
 }

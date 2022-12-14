@@ -10,7 +10,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform Player;
     Vector3 playerPos; 
     //geschwindigkeit gegner 
-    [SerializeField] float speed;
+    [SerializeField] float enemyMovementSpeed = 0.2f;
     //legt fest ob der gegner angreift 
     bool attack = false;
     //ist der Gegner am Waypoint angekommen? 
@@ -44,7 +44,7 @@ public class EnemyMove : MonoBehaviour
         if (attack)
         {
             
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, speed);
+            transform.position = Vector3.MoveTowards(transform.position, playerPos, enemyMovementSpeed);
             
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
@@ -79,18 +79,16 @@ public class EnemyMove : MonoBehaviour
 
     void moveToPos()
     {       
-      
-    
-      
+   
             //gegner läuft zum wegpunkt 
-            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed);
+            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, enemyMovementSpeed);
             //wenn der gegner am ziel ist, kriege neuen weg punkt 
             if (this.transform.position == WayPoints[index].transform.position)
             {
                 isOnPoint = true;
                 GetPos();
             }
-        
+
     }
 
     private void OnTriggerStay(Collider other)

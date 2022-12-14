@@ -7,6 +7,15 @@ TagManager:
   - Gegner
   - Map
   - TreePos
+  - smallHeal
+  - PowerUp
+  - fullHeal
+  - reducedDamage
+  - invulnerability
+  - movementSpeed
+  - tripleShot
+  - invincibility
+  - testfalle
   layers:
   - Default
   - TransparentFX

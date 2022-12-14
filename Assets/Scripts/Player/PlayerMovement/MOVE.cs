@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MOVE : MonoBehaviour
 {
 
-
-    [SerializeField] float speed = 1f;
-    [SerializeField] float jump = 3f;
+    public float playerBaseMovementSpeed = 20.0f;
+    public float playerMovementSpeed = 20.0f;
+    [SerializeField] float jump = 3.0f;
     Vector3 moveRight;
     Vector3 moveLeft;
     [SerializeField]bool isGrounded = true;
@@ -18,6 +19,7 @@ public class MOVE : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(playerMovementSpeed);
         moveRight = new Vector3(0, 90, 0);
         moveLeft = new Vector3(0, 270, 0);
         playerrb = this.GetComponent<Rigidbody>();
@@ -30,12 +32,12 @@ public class MOVE : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        health.health++; 
-        Debug.Log(health.health); 
+        //health.player_health++; 
+        //Debug.Log(health.player_health); 
         //laufen
             Vector3 m_Move = new Vector3(0, 0, Input.GetAxis("Horizontal"));
         Vector3 m_Jump = new Vector3(0f, 1f, 0f); 
-            playerrb.MovePosition(this.transform.position + m_Move * Time.deltaTime * speed);
+            playerrb.MovePosition(this.transform.position + m_Move * Time.deltaTime * playerMovementSpeed);
 
        //spieler dreht sich in lauf richtung
         if (Input.GetKey(KeyCode.D))
