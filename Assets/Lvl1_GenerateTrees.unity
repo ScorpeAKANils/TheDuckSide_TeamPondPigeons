@@ -3115,8 +3115,6 @@ MonoBehaviour:
   - {fileID: 1624027621}
   Player: {fileID: 2273399480145101126}
   speed: 0.2
-  rotationMod: 180
-  rotSpeed: 20
 --- !u!212 &387470154
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9966,8 +9964,6 @@ MonoBehaviour:
   - {fileID: 1959434204}
   Player: {fileID: 2273399480145101126}
   speed: 0.2
-  rotationMod: 180
-  rotSpeed: 20
 --- !u!212 &1221862894
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14777,8 +14773,6 @@ MonoBehaviour:
   - {fileID: 1236346514}
   Player: {fileID: 2273399480145101126}
   speed: 0.2
-  rotationMod: 180
-  rotSpeed: 20
 --- !u!212 &1768713955
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15691,6 +15685,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treePlaced: 0
+--- !u!4 &1853949060 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2083747616732163498, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
+  m_PrefabInstance: {fileID: 244964193267442739}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1860818540
 GameObject:
   m_ObjectHideFlags: 0
@@ -17780,7 +17779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2083747616732163475, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
       propertyPath: LockRot
-      value: 70
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2083747616732163498, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17926,6 +17925,14 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2083747617337910648, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
+      propertyPath: m_GunObj
+      value: 
+      objectReference: {fileID: 1853949060}
+    - target: {fileID: 2083747617337910648, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
+      propertyPath: m_Player
+      value: 
+      objectReference: {fileID: 2273399480145101136}
     - target: {fileID: 2083747617337910654, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
       propertyPath: health
       value: 1e+20
@@ -18649,6 +18656,11 @@ Transform:
 --- !u!95 &2273399480145101135 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2083747617337910652, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
+  m_PrefabInstance: {fileID: 244964193267442739}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &2273399480145101136 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 2083747617337910646, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
   m_PrefabInstance: {fileID: 244964193267442739}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2286331053567525960
@@ -21189,6 +21201,7 @@ GameObject:
   - component: {fileID: 7071182762332175346}
   - component: {fileID: 8513859189080207996}
   - component: {fileID: 8513859189080207997}
+  - component: {fileID: 8513859189080207998}
   m_Layer: 0
   m_Name: Cylinder.001
   m_TagString: Map
@@ -21225,6 +21238,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 2
+--- !u!65 &8513859189080207998
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8513859189080207995}
+  m_Material: {fileID: 13400000, guid: 7f6319b88aa804594a300ff1f4ffd604, type: 2}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38777384, y: 0.077385664, z: 0.07738565}
+  m_Center: {x: -0.00012201071, y: 0.00000047683716, z: 0.000000013038515}
 --- !u!1 &8562740287290134673
 GameObject:
   m_ObjectHideFlags: 0
