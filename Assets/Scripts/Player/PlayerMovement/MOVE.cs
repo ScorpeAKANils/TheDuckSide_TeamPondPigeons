@@ -6,7 +6,8 @@ public class MOVE : MonoBehaviour
 {
 
 
-    [SerializeField] float speed = 1f;
+    public float playerBaseMovementSpeed = 20.0f;
+    public float playerMovementSpeed = 20.0f;
     [SerializeField] float jump = 3f;
     Vector3 moveRight;
     Vector3 moveLeft;
@@ -27,7 +28,7 @@ public class MOVE : MonoBehaviour
     private void Update()
     {
         Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-        playerrb.velocity = m_Move * speed;
+        playerrb.velocity = m_Move * playerMovementSpeed;
     }
     // Update is called once per frame
     void FixedUpdate()

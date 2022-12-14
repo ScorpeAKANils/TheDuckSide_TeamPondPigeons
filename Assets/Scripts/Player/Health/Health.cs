@@ -2,46 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
-  public float health = 3f;
-    bool ableToGetDamage = true;
-    int sceneIndex; 
+    public float max_player_health = 7;
+    public float player_health;
+    public int healthSprites;
+    public bool vulnerable = true;
+    public float invulnerabilityFrameDuration = 0.2f;
+    public float damageMultiplier = 1.0f;
+    public Image[] lifeBar;
+    public Sprite lifeSprite;
+    int sceneIndex;
 
     private void Start()
     {
-        sceneIndex = SceneManager.GetActiveScene().buildIndex; 
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        player_health = max_player_health;
+        healthSprites = (int)max_player_health;
     }
-
-
 
     public void GetDamage(float damage)
     {
-
-            
-        if (ableToGetDamage)
+        if (vulnerable)
         {
-            ableToGetDamage = false;
-            health -= damage;
-            Debug.Log("PlayerHealth" + health);
-            StartCoroutine(damageYield());
-            if (health <= 0)
+            StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
+            player_health -= damage * damageMultiplier; //take damage
+            //Debug.Log("PlayerHealth: " + player_health);
+            if (player_health <= 0) SceneManager.LoadScene(sceneIndex); // in case of death restart level
+            for (int i = 0; i < damage * damageMultiplier; i++)
             {
-                SceneManager.LoadScene(sceneIndex);
+                lifeBar[healthSprites-- - 1].enabled = false;
             }
         }
-        
+    }
 
-            if (health <= 0)
-            {
-                SceneManager.LoadScene(sceneIndex); 
-            }
-     }
-    
-
-    IEnumerator damageYield()
+    IEnumerator invulnerabilityFrame()
     {
-        yield return new WaitForSeconds(0.2f);
-        ableToGetDamage = true; 
+        vulnerable = false;
+        yield return new WaitForSeconds(invulnerabilityFrameDuration);
+        vulnerable = true;
     }
 }
