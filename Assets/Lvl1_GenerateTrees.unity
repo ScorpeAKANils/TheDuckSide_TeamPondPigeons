@@ -19429,6 +19429,10 @@ PrefabInstance:
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 2273399480145101136}
+    - target: {fileID: 2083747617337910648, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
+      propertyPath: m_PlayerPos
+      value: 
+      objectReference: {fileID: 2273399480145101126}
     - target: {fileID: 2083747617337910654, guid: 59e5dd3832307454fa73ac7deb5415c7, type: 3}
       propertyPath: health
       value: 1e+20

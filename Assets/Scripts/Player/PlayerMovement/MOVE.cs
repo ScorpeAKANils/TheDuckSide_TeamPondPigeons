@@ -44,14 +44,14 @@ public class MOVE : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
 
-            transform.localRotation = Quaternion.Euler(moveRight);
+            transform.rotation = Quaternion.Euler(moveRight);
             anim.SetBool("isWalking", true);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
 
-            transform.localRotation = Quaternion.Euler(moveLeft);
+            transform.rotation = Quaternion.Euler(moveLeft);
             anim.SetBool("isWalking", true);
 
         }
@@ -62,6 +62,15 @@ public class MOVE : MonoBehaviour
             isGrounded = false;
             playerrb.MovePosition(playerrb.position + jump * Time.deltaTime * m_Jump);
             anim.SetBool("isWalking", true);
+        }
+
+
+        if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
+        {
+
+
+           anim.SetBool("isWalking", false);
+
         }
     }
 
@@ -75,4 +84,3 @@ public class MOVE : MonoBehaviour
         }
     }
 }
-

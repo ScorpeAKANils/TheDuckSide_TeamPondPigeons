@@ -8,13 +8,15 @@ public class Shoot : MonoBehaviour
     [SerializeField] Transform Gun;
     [SerializeField] Transform m_GunObj;
     [SerializeField] Rigidbody m_Player;
-
+    [SerializeField] Transform m_PlayerPos;
     //bullet Object 
     [SerializeField]GameObject Bullet;
-  
+    float GunDir;
+    float PlayerDir; 
     public float standartReloadTime = 2f;
     public float reloadTime = 2f;
     bool reloaded = true;
+    bool BigShotReady = true; 
     float bulletLifespan = 3f;
     public bool fullAuto = false;
     public bool tripleShot = false;
@@ -22,6 +24,10 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        GunDir = m_GunObj.localRotation.z;
+        PlayerDir = m_PlayerPos.rotation.y; 
+        Debug.Log(GunDir); 
         //abfragen ob Linke Maustaste gedrückt wurde
         if (reloaded)
         {
@@ -32,7 +38,7 @@ public class Shoot : MonoBehaviour
             }
         }
 
-        if (Input.GetButton("Fire2") && reloaded)
+        if (Input.GetButton("Fire2") && BigShotReady)
         {
            
             StartCoroutine(bigShootRoutine());
@@ -51,12 +57,34 @@ public class Shoot : MonoBehaviour
 
     void BigShoot()
     {
-        reloaded = false;
+      
         Debug.Log("Boom, knock back");
         //spawnen der Bullet
         var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
-        m_Player.AddForce(m_GunObj.TransformDirection(-m_GunObj.up) * 12000f);
-        
+
+        if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 1)
+        {
+
+            m_Player.AddForce(m_PlayerPos.TransformDirection((Vector3.left)) * 12000f);
+        }
+        if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 0)
+        {
+
+            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.right) * (-12000f));
+        }
+        if (GunDir > 0.3f || GunDir < -0.3f /*&&PlayerDir == 0*/)
+        {
+
+            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12000f);
+        }
+       /* if (GunDir < -2f && PlayerDir == 1 || GunDir > 2f && PlayerDir == 1)
+        {
+
+            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12000f);
+        }*/
+
+
+
         //bullet flug direction geben 
         bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
         Destroy(bullet, bulletLifespan);
@@ -85,10 +113,10 @@ public class Shoot : MonoBehaviour
     public IEnumerator bigShootRoutine()
     {
 
-        reloaded = false;
+        BigShotReady = false;
         BigShoot(); 
         yield return new WaitForSeconds(reloadTime);
         // Debug.Log("ReloadTime: " + reloadTime);
-        reloaded = true;
+        BigShotReady = true;
     }
 }
