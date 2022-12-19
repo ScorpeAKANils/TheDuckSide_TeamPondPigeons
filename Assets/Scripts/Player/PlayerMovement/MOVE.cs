@@ -34,6 +34,16 @@ public class MOVE : MonoBehaviour
     {
         Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         playerrb.velocity = m_Move * playerMovementSpeed;
+
+        if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
+        {
+
+
+            anim.SetBool("isWalking", false);
+            wingAnim.SetBool("isWalking", false);
+            wingAnim1.SetBool("isWalking", false);
+
+        }
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -75,16 +85,6 @@ public class MOVE : MonoBehaviour
             playerrb.MovePosition(playerrb.position + jump * Time.deltaTime * m_Jump);
         }
 
-
-        if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
-        {
-
-
-            anim.SetBool("isWalking", false);
-            wingAnim.SetBool("isWalking", false);
-            wingAnim1.SetBool("isWalking", false);
-
-        }
     }
 
     //groundcheck

@@ -60,13 +60,21 @@ public class PowerupManager : MonoBehaviour
             invincibility();
             other.gameObject.SetActive(false);
         }
+        /*
         if (other.CompareTag("testfalle"))
         {
             testfalle(1);
+
         }
+        */
     }
 
-    void testfalle(int damageamount)
+    void testfalle(int damageamount) //atm nicht verwendet
+    {
+        healthscript.GetDamage(2);
+    }
+
+    void trap(int damageamount)
     {
         healthscript.GetDamage(2);
     }
@@ -106,7 +114,7 @@ public class PowerupManager : MonoBehaviour
     {
         StartCoroutine(tripleShotRoutine(tripleShotBuffDuration));
     }
-    void invincibility()
+    void invincibility()//atm nicht verwendet
     {
         fullHeal();
         invulnerability();

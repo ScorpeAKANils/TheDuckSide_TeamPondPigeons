@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
             if (player_health <= 0) SceneManager.LoadScene(sceneIndex); // in case of death restart level
             for (int i = 0; i < damage * damageMultiplier; i++)
             {
-                lifeBar[healthSprites-- - 1].enabled = false;
+                lifeBar[healthSprites---1].enabled = false;
             }
         }
     }
