@@ -128,7 +128,7 @@ public class TreeGenerator : MonoBehaviour
         }
     }
 
-    void DespawmTrees()
+    void DespawnTrees()
     {
         foreach (GameObject Pine in PinesInScene)
         {
@@ -153,7 +153,7 @@ public class TreeGenerator : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            DespawmTrees();
+            DespawnTrees();
         }
     }
 }
