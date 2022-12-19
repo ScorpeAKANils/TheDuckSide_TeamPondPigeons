@@ -14,11 +14,16 @@ public class MOVE : MonoBehaviour
     [SerializeField] bool isGrounded = true;
     Rigidbody playerrb;
     Animator anim;
-
+    bool lookRight; 
+    [SerializeField] Animator wingAnim;
+    [SerializeField] GameObject Wing;
+    [SerializeField] Animator wingAnim1;
+    [SerializeField] GameObject Wing1;
 
     // Start is called before the first frame update
     void Start()
     {
+       
         moveRight = new Vector3(0, 180, 0);
         moveLeft = new Vector3(0, 0, 0);
         playerrb = this.GetComponent<Rigidbody>();
@@ -43,16 +48,20 @@ public class MOVE : MonoBehaviour
         //spieler dreht sich in lauf richtung
         if (Input.GetKey(KeyCode.D))
         {
-
+            lookRight = true; 
             transform.rotation = Quaternion.Euler(moveRight);
             anim.SetBool("isWalking", true);
+            wingAnim.SetBool("isWalking", true);
+            wingAnim1.SetBool("isWalking", true);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-
+            lookRight = false; 
             transform.rotation = Quaternion.Euler(moveLeft);
             anim.SetBool("isWalking", true);
+            wingAnim.SetBool("isWalking", true);
+            wingAnim1.SetBool("isWalking", true);
 
         }
 
@@ -60,8 +69,10 @@ public class MOVE : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             isGrounded = false;
+            anim.SetBool("isJumping", true);
+            wingAnim1.SetBool("isJumping", true);
+            wingAnim.SetBool("isJumping", true);
             playerrb.MovePosition(playerrb.position + jump * Time.deltaTime * m_Jump);
-            anim.SetBool("isWalking", true);
         }
 
 
@@ -69,7 +80,9 @@ public class MOVE : MonoBehaviour
         {
 
 
-           anim.SetBool("isWalking", false);
+            anim.SetBool("isWalking", false);
+            wingAnim.SetBool("isWalking", false);
+            wingAnim1.SetBool("isWalking", false);
 
         }
     }
@@ -80,7 +93,9 @@ public class MOVE : MonoBehaviour
         if (collision.gameObject.CompareTag("Map"))
         {
             isGrounded = true;
-            anim.SetBool("isWalking", false);
+            anim.SetBool("isJumping", false);
+            wingAnim.SetBool("isJumping", false);
+           wingAnim1.SetBool("isJumping", false);
         }
     }
 }
