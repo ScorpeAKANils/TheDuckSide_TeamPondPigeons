@@ -73,7 +73,7 @@ public class PowerupManager : MonoBehaviour
 
     void smallHeal()
     {
-        if (healthscript.player_health <= healthscript.max_player_health)
+        if (healthscript.player_health < healthscript.max_player_health)
         {
             healthscript.player_health += 1.0f;
             healthscript.lifeBar[healthscript.healthSprites++].enabled = true;
