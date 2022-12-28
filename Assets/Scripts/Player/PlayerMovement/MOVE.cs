@@ -19,11 +19,17 @@ public class MOVE : MonoBehaviour
     [SerializeField] GameObject Wing;
     [SerializeField] Animator wingAnim1;
     [SerializeField] GameObject Wing1;
+    Vector3 m_Jump;
+    bool isJumping;
+    float currentYVelocity;
+    float currentXVelocity; 
+    [SerializeField]  float FallMultiplayer;
+   
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        m_Jump = new Vector3(0f, 1f, 0f);
         moveRight = new Vector3(0, 180, 0);
         moveLeft = new Vector3(0, 0, 0);
         playerrb = this.GetComponent<Rigidbody>();
@@ -32,8 +38,10 @@ public class MOVE : MonoBehaviour
     }
     private void Update()
     {
+        currentYVelocity = playerrb.velocity.y;
         Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         playerrb.velocity = m_Move * playerMovementSpeed;
+        playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0); 
 
         if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
         {
@@ -44,47 +52,68 @@ public class MOVE : MonoBehaviour
             wingAnim1.SetBool("isWalking", false);
 
         }
+
+   
+            if (Input.GetAxisRaw("Jump")==1&& isGrounded)
+            {
+            isJumping = true; 
+ 
+            anim.SetBool("isJumping", true);
+            wingAnim1.SetBool("isJumping", true);
+            wingAnim.SetBool("isJumping", true);
+
+            //playerrb.AddForce(Vector2.up * playerrb.mass * jump);
+   
+
+            //playerrb.velocity = new Vector2(playerrb.velocity.x, jump);
+            //
+        }
+
+        if (playerrb.velocity.y < 0)
+        {
+            playerrb.velocity += (FallMultiplayer-1) * Physics.gravity.y * Vector3.up*Time.deltaTime;
+        }
+
+      
+
+
     }
-    // Update is called once per frame
     void FixedUpdate()
     {
+     
 
         //laufen
-       
-        Vector3 m_Jump = new Vector3(0f, 1f, 0f);
+
+
         //playerrb.MovePosition(playerrb.position + (m_Move * speed * Time.fixedDeltaTime));
 
 
         //spieler dreht sich in lauf richtung
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A))
         {
-            lookRight = true; 
+            lookRight = false; 
             transform.rotation = Quaternion.Euler(moveRight);
             anim.SetBool("isWalking", true);
             wingAnim.SetBool("isWalking", true);
             wingAnim1.SetBool("isWalking", true);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.D))
         {
-            lookRight = false; 
+            lookRight = true; 
             transform.rotation = Quaternion.Euler(moveLeft);
             anim.SetBool("isWalking", true);
             wingAnim.SetBool("isWalking", true);
             wingAnim1.SetBool("isWalking", true);
-
         }
 
-        //springen
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (isJumping)
         {
+         
+            isJumping = false;
             isGrounded = false;
-            anim.SetBool("isJumping", true);
-            wingAnim1.SetBool("isJumping", true);
-            wingAnim.SetBool("isJumping", true);
-            playerrb.MovePosition(playerrb.position + jump * Time.deltaTime * m_Jump);
+            playerrb.velocity = Vector3.up * jump; 
         }
-
     }
 
     //groundcheck

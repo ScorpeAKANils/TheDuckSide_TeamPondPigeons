@@ -21,9 +21,12 @@ public class Shoot : MonoBehaviour
     public bool fullAuto = false;
     public bool tripleShot = false;
 
+ float time; 
+
     // Update is called once per frame
     void Update()
     {
+
 
         GunDir = m_GunObj.localRotation.z;
         PlayerDir = m_PlayerPos.rotation.y; 
@@ -38,7 +41,7 @@ public class Shoot : MonoBehaviour
             }
         }
 
-        if (Input.GetButton("Fire2") && BigShotReady)
+        if (Input.GetButtonDown("Fire2") && BigShotReady)
         {
            
             StartCoroutine(bigShootRoutine());
@@ -65,17 +68,38 @@ public class Shoot : MonoBehaviour
         if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 1)
         {
 
-            m_Player.AddForce(m_PlayerPos.TransformDirection((Vector3.left)) * 12000f);
+            while(time < 3f)
+            {
+           
+                Debug.Log("Force Duration: " + time);
+                m_Player.AddForce(new Vector3(this.transform.position.x, 0, 0) * 0.5f, ForceMode.VelocityChange);
+            }
+                
+
+            
+       
         }
         if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 0)
         {
 
-            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.right) * (-12000f));
+            while (time < 3f)
+            {
+
+                time += Time.deltaTime; 
+                Debug.Log("Force Duration: " +time);
+                //m_Player.AddForce(new Vector3(this.transform.position.x, 0, 0) * -0.5f, ForceMode.VelocityChange);
+                m_Player.velocity = Vector3.right* 12f;
+            }
+
+
+            //m_Player.velocity += Vector3.right * (-12f);
+
         }
         if (GunDir > 0.3f || GunDir < -0.3f /*&&PlayerDir == 0*/)
         {
-
-            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12000f);
+            m_Player.velocity = Vector3.up * 12f;
+           // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
+           
         }
        /* if (GunDir < -2f && PlayerDir == 1 || GunDir > 2f && PlayerDir == 1)
         {
@@ -115,7 +139,7 @@ public class Shoot : MonoBehaviour
 
         BigShotReady = false;
         BigShoot(); 
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(3.5f);
         // Debug.Log("ReloadTime: " + reloadTime);
         BigShotReady = true;
     }
