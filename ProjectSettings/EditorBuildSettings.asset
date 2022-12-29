@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PrototypeMenue.unity
     guid: f3fbced6e05cd4a8ea3f362fdc083076
   - enabled: 1
-    path: Assets/Lvl1_GenerateTrees.unity
+    path: Assets/Scenes/Lvl1_GenerateTrees.unity
     guid: dfa1dcf140e8b4c78905c7be3384c648
   m_configObjects: {}

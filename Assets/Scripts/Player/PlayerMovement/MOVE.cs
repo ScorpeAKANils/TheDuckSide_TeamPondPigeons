@@ -61,12 +61,9 @@ public class MOVE : MonoBehaviour
             anim.SetBool("isJumping", true);
             wingAnim1.SetBool("isJumping", true);
             wingAnim.SetBool("isJumping", true);
-
-            //playerrb.AddForce(Vector2.up * playerrb.mass * jump);
-   
-
-            //playerrb.velocity = new Vector2(playerrb.velocity.x, jump);
-            //
+            isJumping = false;
+            isGrounded = false;
+            playerrb.velocity = Vector3.up * jump;
         }
 
         if (playerrb.velocity.y < 0)
@@ -107,13 +104,6 @@ public class MOVE : MonoBehaviour
             wingAnim1.SetBool("isWalking", true);
         }
 
-        if (isJumping)
-        {
-         
-            isJumping = false;
-            isGrounded = false;
-            playerrb.velocity = Vector3.up * jump; 
-        }
     }
 
     //groundcheck

@@ -10,13 +10,13 @@ public class PowerupManager : MonoBehaviour
     private float tripleShotBuffDuration = 15.0f;
     private float movementSpeedBuffDuration = 15.0f;
     private float movementSpeedBuffed = 40.0f;
-    Health healthscript;
+   PlayerHealth healthscript;
     MOVE movescript;
     Shoot shootscript;
 
     void Start()
     {
-        healthscript = GetComponent<Health>();
+        healthscript = GetComponent<PlayerHealth>();
         movescript = GetComponent<MOVE>();
         shootscript = GetComponent<Shoot>();
     }
