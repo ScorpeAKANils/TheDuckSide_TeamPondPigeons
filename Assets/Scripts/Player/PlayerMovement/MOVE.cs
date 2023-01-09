@@ -24,7 +24,7 @@ public class MOVE : MonoBehaviour
     float currentYVelocity;
     float currentXVelocity; 
     [SerializeField]  float FallMultiplayer;
-   
+    bool isWalking = false; 
 
     // Start is called before the first frame update
     void Start()
@@ -35,29 +35,42 @@ public class MOVE : MonoBehaviour
         playerrb = this.GetComponent<Rigidbody>();
         playerrb.position = this.transform.position;
         anim = GetComponent<Animator>();
+        
     }
     private void Update()
     {
-        currentYVelocity = playerrb.velocity.y;
-        Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-        playerrb.velocity = m_Move * playerMovementSpeed;
-        playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0); 
+        if (isGrounded)
+        {
+            currentYVelocity = playerrb.velocity.y;
+            Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            playerrb.velocity = m_Move * playerMovementSpeed;
+            playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0);
+        }
+     
 
         if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
         {
 
+                isWalking = false; 
+                anim.SetBool("isWalking", false);
+                wingAnim.SetBool("isWalking", false);
+                wingAnim1.SetBool("isWalking", false);
 
-            anim.SetBool("isWalking", false);
-            wingAnim.SetBool("isWalking", false);
-            wingAnim1.SetBool("isWalking", false);
+            
+      
 
         }
 
    
             if (Input.GetAxisRaw("Jump")==1&& isGrounded)
             {
+            if (isWalking)
+            {
+                playerrb.AddForce(this.gameObject.transform.right * 10, ForceMode.VelocityChange);
+                isWalking = false;
+            }
+          
             isJumping = true; 
- 
             anim.SetBool("isJumping", true);
             wingAnim1.SetBool("isJumping", true);
             wingAnim.SetBool("isJumping", true);
@@ -88,6 +101,7 @@ public class MOVE : MonoBehaviour
         //spieler dreht sich in lauf richtung
         if (Input.GetKey(KeyCode.A))
         {
+            isWalking = true; 
             lookRight = false; 
             transform.rotation = Quaternion.Euler(moveRight);
             anim.SetBool("isWalking", true);
@@ -97,6 +111,7 @@ public class MOVE : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D))
         {
+            isWalking = true;
             lookRight = true; 
             transform.rotation = Quaternion.Euler(moveLeft);
             anim.SetBool("isWalking", true);

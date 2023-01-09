@@ -101,11 +101,10 @@ public class Shoot : MonoBehaviour
            // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
            
         }
-       /* if (GunDir < -2f && PlayerDir == 1 || GunDir > 2f && PlayerDir == 1)
+        if (GunDir < -2f || GunDir > 2f && PlayerDir == 1)
         {
-
-            m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12000f);
-        }*/
+            m_Player.velocity = m_PlayerPos.right * 12f;
+        }
 
 
 
