@@ -7,7 +7,7 @@ public class movingPlattform : MonoBehaviour
     int index = 0;
     bool isOnPoint = false;
     [SerializeField] Transform[] WayPoints;
-   float  speed = 10f; 
+   float  speed = 15f; 
     // Start is called before the first frame update
   
 

@@ -30,7 +30,7 @@ public class Shoot : MonoBehaviour
 
         GunDir = m_GunObj.localRotation.z;
         PlayerDir = m_PlayerPos.rotation.y; 
-        Debug.Log(GunDir); 
+       
         //abfragen ob Linke Maustaste gedrückt wurde
         if (reloaded)
         {
@@ -61,7 +61,7 @@ public class Shoot : MonoBehaviour
     void BigShoot()
     {
       
-        Debug.Log("Boom, knock back");
+        
         //spawnen der Bullet
         var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
 
@@ -70,8 +70,6 @@ public class Shoot : MonoBehaviour
 
             while(time < 3f)
             {
-           
-                Debug.Log("Force Duration: " + time);
                 m_Player.AddForce(new Vector3(this.transform.position.x, 0, 0) * 0.5f, ForceMode.VelocityChange);
             }
                 
@@ -82,15 +80,7 @@ public class Shoot : MonoBehaviour
         if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 0)
         {
 
-            while (time < 3f)
-            {
-
-                time += Time.deltaTime; 
-                Debug.Log("Force Duration: " +time);
-                //m_Player.AddForce(new Vector3(this.transform.position.x, 0, 0) * -0.5f, ForceMode.VelocityChange);
-                m_Player.velocity = Vector3.right* 12f;
-            }
-
+         
 
             //m_Player.velocity += Vector3.right * (-12f);
 
@@ -101,13 +91,6 @@ public class Shoot : MonoBehaviour
            // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
            
         }
-        if (GunDir < -2f || GunDir > 2f && PlayerDir == 1)
-        {
-            m_Player.velocity = m_PlayerPos.right * 12f;
-        }
-
-
-
         //bullet flug direction geben 
         bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
         Destroy(bullet, bulletLifespan);
