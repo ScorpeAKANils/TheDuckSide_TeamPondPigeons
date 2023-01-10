@@ -36,13 +36,7 @@ public class MOVE : MonoBehaviour
     }
     private void Update()
     {
-        if (isGrounded)
-        {
-            currentYVelocity = playerrb.velocity.y;
-            Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-            playerrb.velocity = m_Move * playerMovementSpeed;
-            playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0);
-        }
+      
         if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
         {
 
@@ -56,6 +50,8 @@ public class MOVE : MonoBehaviour
             DashAllowed = false;
             StartCoroutine(DashDuration());
         }
+
+        
 
         if (Input.GetAxisRaw("Jump") == 1 && isGrounded)
         {
@@ -74,9 +70,20 @@ public class MOVE : MonoBehaviour
         {
             playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
         }
+   
     }
     void FixedUpdate()
     {
+
+        if (isGrounded)
+        {
+            currentYVelocity = playerrb.velocity.y;
+            Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            playerrb.velocity = m_Move * playerMovementSpeed;
+            //playerrb.AddForce(m_Move * playerMovementSpeed, ForceMode.VelocityChange); 
+            playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0);
+        }
+
         //spieler dreht sich in lauf richtung
         if (Input.GetKey(KeyCode.A))
         {
@@ -100,7 +107,7 @@ public class MOVE : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Map"))
         {
-            isGrounded = true;
+       
             anim.SetBool("isJumping", false);
             wingAnim.SetBool("isJumping", false);
             wingAnim1.SetBool("isJumping", false);
@@ -108,6 +115,15 @@ public class MOVE : MonoBehaviour
             {
                 this.gameObject.transform.parent = collision.gameObject.transform;
             }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Map"))
+        {
+
+            isGrounded = true; 
         }
     }
     IEnumerator DashDuration()
@@ -122,8 +138,10 @@ public class MOVE : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<movingPlattform>())
             {
+
                 this.gameObject.transform.parent = null;
             }
+
         }
     }
 }
