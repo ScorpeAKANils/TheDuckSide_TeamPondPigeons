@@ -43,8 +43,11 @@ public class Shoot : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2") && BigShotReady)
         {
-           
-            StartCoroutine(bigShootRoutine());
+            if (GunDir > 0.3f || GunDir < -0.3f)
+            {
+                StartCoroutine(bigShootRoutine());
+            }
+        
         }
     }
 
@@ -60,40 +63,13 @@ public class Shoot : MonoBehaviour
 
     void BigShoot()
     {
-      
-        
         //spawnen der Bullet
-        var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
-
-        if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 1)
-        {
-
-            while(time < 3f)
-            {
-                m_Player.AddForce(new Vector3(this.transform.position.x, 0, 0) * 0.5f, ForceMode.VelocityChange);
-            }
-                
-
-            
-       
-        }
-        if (GunDir <= 0.3f && GunDir >= -0.3f && PlayerDir == 0)
-        {
-
-         
-
-            //m_Player.velocity += Vector3.right * (-12f);
-
-        }
-        if (GunDir > 0.3f || GunDir < -0.3f /*&&PlayerDir == 0*/)
-        {
+            var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
             m_Player.velocity = Vector3.up * 12f;
-           // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
-           
-        }
-        //bullet flug direction geben 
-        bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
-        Destroy(bullet, bulletLifespan);
+            // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
+            //bullet flug direction geben 
+            bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
+            Destroy(bullet, bulletLifespan);
     }
 
     public IEnumerator shootRoutine()

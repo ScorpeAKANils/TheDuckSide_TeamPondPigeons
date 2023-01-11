@@ -11,6 +11,7 @@ public class MOVE : MonoBehaviour
     [SerializeField] float jump = 3f;
     Vector3 moveRight;
     Vector3 moveLeft;
+    Vector3 m_Move; 
     [SerializeField] bool isGrounded = true;
     Rigidbody playerrb;
     Animator anim;
@@ -45,7 +46,7 @@ public class MOVE : MonoBehaviour
             wingAnim.SetBool("isWalking", false);
             wingAnim1.SetBool("isWalking", false);
         }
-        if (Input.GetKeyDown(KeyCode.E) && DashAllowed)
+        if (Input.GetKeyDown(KeyCode.R) && DashAllowed)
         {
             DashAllowed = false;
             StartCoroutine(DashDuration());
@@ -78,11 +79,17 @@ public class MOVE : MonoBehaviour
         if (isGrounded)
         {
             currentYVelocity = playerrb.velocity.y;
-            Vector3 m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             playerrb.velocity = m_Move * playerMovementSpeed;
             //playerrb.AddForce(m_Move * playerMovementSpeed, ForceMode.VelocityChange); 
             playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0);
         }
+        else
+        {
+            playerMovementSpeed = 0;
+        }
+     
+  
 
         //spieler dreht sich in lauf richtung
         if (Input.GetKey(KeyCode.A))
@@ -122,7 +129,7 @@ public class MOVE : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Map"))
         {
-
+            playerMovementSpeed = playerBaseMovementSpeed;
             isGrounded = true; 
         }
     }
@@ -136,6 +143,7 @@ public class MOVE : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Map"))
         {
+
             if (collision.gameObject.GetComponent<movingPlattform>())
             {
 
