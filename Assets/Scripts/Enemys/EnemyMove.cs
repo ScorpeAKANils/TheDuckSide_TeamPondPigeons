@@ -5,13 +5,15 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
+    Animator stickHunterAnimator;
     //positions angaben für Waypoints und Spieler 
     [SerializeField] Transform[] WayPoints;
     int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
     [SerializeField] Transform Player;
     Vector3 PlayerPos;
-    //geschwindigkeit gegner 
-    [SerializeField] float speed;
+    //geschwindigkeit gegner
+    private float basespeed = 0.2f;
+    private float speed;
     //legt fest ob der gegner angreift
     bool attack = false;
     //ist der Gegner am Waypoint angekommen? 
@@ -20,6 +22,11 @@ public class EnemyMove : MonoBehaviour
     float damage = 1f;
     float PlayerDirection;
 
+    private void Start()
+    {
+        speed = basespeed;
+        stickHunterAnimator = GetComponent<Animator>();
+    }
 
 
     private void Update()
@@ -41,6 +48,19 @@ public class EnemyMove : MonoBehaviour
         {
             attack = true;
         }
+
+        //switches to attackanimation and stops movement when in range of player
+        if (Vector3.Distance(transform.position, Player.transform.position) < 6f)
+        {
+            speed = 0;
+            stickHunterAnimator.SetBool("isAttacking", true);
+        }
+        else
+        {
+            speed = basespeed;
+            stickHunterAnimator.SetBool("isAttacking", false);
+        }
+
         if (PlayerDirection < 0 && attack)
         {
             this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
@@ -109,5 +129,14 @@ public class EnemyMove : MonoBehaviour
     {
         Player.gameObject.GetComponent<PlayerHealth>().GetDamage(damage);
         yield return new WaitForSeconds(0.5f);
+    }
+
+    //gets triggered on last frame of stickHunters attack. damages the duck if its in range
+    private void hitDuck()
+    {
+        if (Vector3.Distance(transform.position, Player.transform.position) < 6f)
+        {
+            Player.gameObject.GetComponent<PlayerHealth>().GetDamage(damage);
+        }
     }
 }
