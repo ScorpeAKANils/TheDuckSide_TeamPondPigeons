@@ -47,7 +47,6 @@ public class Shoot : MonoBehaviour
             {
                 StartCoroutine(bigShootRoutine());
             }
-        
         }
     }
 
@@ -63,7 +62,7 @@ public class Shoot : MonoBehaviour
 
     void BigShoot()
     {
-        //spawnen der Bullet
+            //spawnen der Bullet
             var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
             m_Player.velocity = Vector3.up * 12f;
             // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);

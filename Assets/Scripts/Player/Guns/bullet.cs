@@ -12,11 +12,10 @@ public class bullet : MonoBehaviour
         if (other.CompareTag("Gegner"))
         {
             other.GetComponent<EnemyHealth>().GetDamage(damage);
- 
             this.gameObject.SetActive(false);
         }
         //To-Do PowerUp Tags ebenfalls durch fliegbar machen 
-        else if(!other.CompareTag("Player") && !other.CompareTag("Map"))
+        else if(!other.CompareTag("Player"))
         {
             this.gameObject.SetActive(false);
         }

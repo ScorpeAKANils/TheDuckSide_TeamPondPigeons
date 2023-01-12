@@ -11,24 +11,33 @@ public class MOVE : MonoBehaviour
     [SerializeField] float jump = 3f;
     Vector3 moveRight;
     Vector3 moveLeft;
-    Vector3 m_Move; 
-    [SerializeField] bool isGrounded = true;
+    Vector3 m_Move;
+    Transform Player; 
+    public bool isGrounded = true;
     Rigidbody playerrb;
     Animator anim;
     [SerializeField] float m_jumpForwardForce = 20f;
-    [SerializeField] float m_DashForce = 40f;
+    [SerializeField] float m_DashForce = 2f;
     bool DashAllowed = true;
     [SerializeField] Animator wingAnim;
+    bool MovesRight = true; 
     [SerializeField] GameObject Wing;
     [SerializeField] Animator wingAnim1;
     [SerializeField] GameObject Wing1;
     float currentYVelocity;
+    float horizontal; 
     [SerializeField] float FallMultiplayer;
     bool isWalking = false;
+    float time;
+    bool isDashing;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+   
+        Player = this.GetComponent<Transform>(); 
         moveRight = new Vector3(0, 180, 0);
         moveLeft = new Vector3(0, 0, 0);
         playerrb = this.GetComponent<Rigidbody>();
@@ -37,7 +46,11 @@ public class MOVE : MonoBehaviour
     }
     private void Update()
     {
-      
+        if (isDashing)
+        {
+            return; 
+        }
+        horizontal = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
         {
 
@@ -48,66 +61,43 @@ public class MOVE : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R) && DashAllowed)
         {
-            DashAllowed = false;
             StartCoroutine(DashDuration());
         }
 
-        
+        DoFlipBro();
 
         if (Input.GetAxisRaw("Jump") == 1 && isGrounded)
         {
-            if (isWalking)
-            {
-                playerrb.AddForce(this.gameObject.transform.right * m_jumpForwardForce, ForceMode.VelocityChange);
-                isWalking = false;
-            }
             anim.SetBool("isJumping", true);
             wingAnim1.SetBool("isJumping", true);
             wingAnim.SetBool("isJumping", true);
-            isGrounded = false;
+            //isGrounded = false;
             playerrb.velocity = Vector3.up * jump;
         }
         if (playerrb.velocity.y < 0)
         {
             playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
         }
-   
+ 
     }
     void FixedUpdate()
     {
-
-        if (isGrounded)
+        if (isDashing)
         {
+            return; 
+        }
             currentYVelocity = playerrb.velocity.y;
-            m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-            playerrb.velocity = m_Move * playerMovementSpeed;
-            //playerrb.AddForce(m_Move * playerMovementSpeed, ForceMode.VelocityChange); 
-            playerrb.velocity = new Vector3(playerrb.velocity.x, currentYVelocity, 0);
-        }
-        else
-        {
-            playerMovementSpeed = 0;
-        }
-     
-  
-
-        //spieler dreht sich in lauf richtung
-        if (Input.GetKey(KeyCode.A))
+            //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+          
+        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
         {
             isWalking = true;
-            transform.rotation = Quaternion.Euler(moveRight);
             anim.SetBool("isWalking", true);
             wingAnim.SetBool("isWalking", true);
             wingAnim1.SetBool("isWalking", true);
         }
-        if (Input.GetKey(KeyCode.D))
-        {
-            isWalking = true;
-            transform.rotation = Quaternion.Euler(moveLeft);
-            anim.SetBool("isWalking", true);
-            wingAnim.SetBool("isWalking", true);
-            wingAnim1.SetBool("isWalking", true);
-        }
+      
     }
     //groundcheck
     private void OnCollisionEnter(Collision collision)
@@ -118,38 +108,30 @@ public class MOVE : MonoBehaviour
             anim.SetBool("isJumping", false);
             wingAnim.SetBool("isJumping", false);
             wingAnim1.SetBool("isJumping", false);
-            if (collision.gameObject.GetComponent<movingPlattform>())
-            {
-                this.gameObject.transform.parent = collision.gameObject.transform;
-            }
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    void DoFlipBro()
     {
-        if (collision.gameObject.CompareTag("Map"))
+        if (MovesRight && horizontal < 0f || !MovesRight && horizontal > 0f)
         {
-            playerMovementSpeed = playerBaseMovementSpeed;
-            isGrounded = true; 
+            MovesRight = !MovesRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
     IEnumerator DashDuration()
     {
-        playerrb.AddForce(this.gameObject.transform.right * m_DashForce, ForceMode.VelocityChange);
-        yield return new WaitForSeconds(0.5f);
-        DashAllowed = true;
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Map"))
-        {
+        DashAllowed = false;
+        isDashing = true;
+        //playerrb.useGravity = false;
+        playerrb.velocity = new Vector3(transform.localScale.x* m_DashForce, 0f, 0f);
+        yield return new WaitForSeconds(0.2f);
+        //playerrb.useGravity = true;
+        isDashing = false;
+        yield return new WaitForSeconds(1f);
+        DashAllowed = true; 
 
-            if (collision.gameObject.GetComponent<movingPlattform>())
-            {
-
-                this.gameObject.transform.parent = null;
-            }
-
-        }
     }
 }
