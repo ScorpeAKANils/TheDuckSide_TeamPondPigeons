@@ -56,7 +56,7 @@ public class Shoot : MonoBehaviour
         //spawnen der Bullet
         var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
         //bullet flug direction geben 
-        bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
+        bullet.GetComponent<Rigidbody>().AddForce(Gun.TransformDirection(Vector3.right) * 50f, ForceMode.VelocityChange);
         Destroy(bullet,bulletLifespan);
     }
 
