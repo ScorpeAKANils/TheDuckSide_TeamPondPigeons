@@ -7,7 +7,7 @@ public class GroundCheck : MonoBehaviour
    [SerializeField] MOVE m_Move;
     [SerializeField] GameObject m_Player; 
     // Start is called before the first frame update
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Map"))
         {

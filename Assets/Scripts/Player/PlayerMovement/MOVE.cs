@@ -31,6 +31,9 @@ public class MOVE : MonoBehaviour
     float time;
     bool isDashing;
 
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer; 
+
 
 
     // Start is called before the first frame update
@@ -110,6 +113,11 @@ public class MOVE : MonoBehaviour
             wingAnim1.SetBool("isJumping", false);
         }
     }
+
+    /*bool Grounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer); 
+    }*/
 
     void DoFlipBro()
     {

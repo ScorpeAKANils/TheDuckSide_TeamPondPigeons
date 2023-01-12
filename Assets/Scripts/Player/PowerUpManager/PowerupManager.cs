@@ -64,6 +64,7 @@ public class PowerupManager : MonoBehaviour
         if (other.CompareTag("testfalle"))
         {
             testfalle(1);
+            other.GetComponent<BoxCollider>().enabled = false; 
 
         }
         

@@ -6,47 +6,58 @@ public class EnemyShootAndCover : MonoBehaviour
 {
     [SerializeField] Transform CoverPos;
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform GunPos;
+    [SerializeField] Transform rifleMuzzle;
     [SerializeField] Transform ShootPos;
     [SerializeField] float despawnTime;
-    Transform EnemySize;
+    Vector3 PlayerPos;
+    Transform Enemy;
     Vector3 CoverSize;
     Vector3 ShootSize;
     bool standUpAllowed = true;
     bool takeCoverAllowed = false;
-    [SerializeField] Transform PlayerPos; 
+    [SerializeField] Transform Player;
+    //[SerializeField] Transform PlayerPos;
+    Animator rifleHunterAnimator;
 
     bool shootAble = true;
     // Start is called before the first frame update
     void Start()
     {
-
-        EnemySize = GetComponent<Transform>();
-        CoverSize = new Vector3(0.5f, 0.25f, 0.5f);
-        ShootSize = EnemySize.localScale;
-
-    
-
-
+        despawnTime = 3f;
+        Enemy = GetComponent<Transform>();
+        //CoverSize = new Vector3(0.5f, 0.25f, 0.5f);
+        //ShootSize = EnemySize.localScale;
+        rifleHunterAnimator = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        //Debug.Log("Start of update enemy shoot and cover");
+        //PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
+        if (Vector3.Distance(transform.position, Player.transform.position) < 20f)
+        {
+            //Debug.Log("spieler ist nahe j‰ger");
+            rifleHunterAnimator.SetBool("playerCloseBy", true);
+        }
+        else
+        {
+            //Debug.Log("spieler ist fern vom j‰ger");
+            rifleHunterAnimator.SetBool("playerCloseBy", false);
+        }
+    }
+
+    /*
     // Update is called once per frame
     void Update()
     {
-
         if (Vector3.Distance(transform.position, PlayerPos.position) < 20f)
         {
             AttackPlayer();
-
         }
         else
         {
             Cover(); 
         }
-       
-
-
-
     }
 
     void Cover()
@@ -64,9 +75,9 @@ public class EnemyShootAndCover : MonoBehaviour
         shoot();
         StartCoroutine(shootingYield());
     }
+
     void AttackPlayer()
     {
-
         if (standUpAllowed)
         {
             StartCoroutine(standUp());
@@ -77,39 +88,33 @@ public class EnemyShootAndCover : MonoBehaviour
             StartCoroutine(takeCover()); 
         }
     }
+*/
     void shoot()
     {
-        if (shootAble)
-        {
-            shootAble = false;
-            var Bullet = Instantiate(bullet, GunPos.position, GunPos.rotation);
-            Bullet.GetComponent<Rigidbody>().AddForce(-GunPos.right * 50f, ForceMode.VelocityChange);
-            Destroy(Bullet, despawnTime);
-            
-        }
-
-
+        var Bullet = Instantiate(bullet, rifleMuzzle.position, rifleMuzzle.rotation);
+        Bullet.GetComponent<Rigidbody>().AddForce(-rifleMuzzle.right * 50f, ForceMode.VelocityChange);
+        Destroy(Bullet, despawnTime);
     }
+
+    /*
     IEnumerator shootingYield()
     {
         yield return new WaitForSeconds(0.5f);
         shootAble = true;
     }
+
     IEnumerator standUp()
     {
         GetUpAndShoot();
         yield return new WaitForSeconds(1.0f);
         takeCoverAllowed = true; 
-      
-
-
-
     }
+
     IEnumerator takeCover()
     {
         Cover();
         yield return new WaitForSeconds(1.0f);
-        standUpAllowed = true; 
-
+        standUpAllowed = true;
     }
+    */
 }
