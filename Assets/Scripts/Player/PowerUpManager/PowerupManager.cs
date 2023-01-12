@@ -60,13 +60,13 @@ public class PowerupManager : MonoBehaviour
             invincibility();
             other.gameObject.SetActive(false);
         }
-        /*
+        
         if (other.CompareTag("testfalle"))
         {
             testfalle(1);
 
         }
-        */
+        
     }
 
     void testfalle(int damageamount) //atm nicht verwendet
