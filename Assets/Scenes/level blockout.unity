@@ -649,7 +649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1684074800337980652, guid: cfde4d59c6645418da3b3487b5cd1dec, type: 3}
       propertyPath: m_DashForce
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1684074800337980652, guid: cfde4d59c6645418da3b3487b5cd1dec, type: 3}
       propertyPath: FallMultiplayer
