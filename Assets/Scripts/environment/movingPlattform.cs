@@ -46,28 +46,4 @@ public class movingPlattform : MonoBehaviour
     
 
     }
-
-    //hier holt man sich eine neue position her 
-    void GetPos()
-    {
-
-    
-    }
-
-    void moveToPos()
-    {
-        while (index < WayPointCounter)
-        {
-            //gegner läuft zum wegpunkt
-            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed * Time.deltaTime);
-            //wenn der gegner am ziel ist, kriege neuen weg punkt 
-            if (this.transform.position == WayPoints[index].position)
-            {
-            
-                isOnPoint = true;
-                GetPos();
-          
-            }
-        }
-    }
 }
