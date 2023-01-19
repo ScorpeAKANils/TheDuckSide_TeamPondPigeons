@@ -61,7 +61,7 @@ Material:
     - _Rim_Thicc: 0.01
     - _Wiggle_Speed: 0.225
     - _Wind_Force: 0.2
-    - _Wind_Speed: 0.55
+    - _Wind_Speed: 0.69
     m_Colors:
     - _Hue_Variation: {r: 1, g: 0.5, b: 0, a: 0.5}
     - _Leaf_Color: {r: 0.49610662, g: 0.75471693, b: 0.42363828, a: 0}
