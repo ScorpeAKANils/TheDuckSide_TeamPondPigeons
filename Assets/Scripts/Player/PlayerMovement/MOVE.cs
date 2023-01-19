@@ -30,7 +30,9 @@ public class MOVE : MonoBehaviour
     bool isWalking = false;
     float time;
     bool isDashing;
+    Vector3 localScale; 
 
+    float distToGround; 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer; 
 
@@ -39,7 +41,8 @@ public class MOVE : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-   
+        localScale = transform.localScale;
+        distToGround = this.GetComponent<BoxCollider>().bounds.extents.y; 
         Player = this.GetComponent<Transform>(); 
         moveRight = new Vector3(0, 180, 0);
         moveLeft = new Vector3(0, 0, 0);
@@ -69,7 +72,7 @@ public class MOVE : MonoBehaviour
 
         DoFlipBro();
 
-        if (Input.GetAxisRaw("Jump") == 1 && isGrounded)
+        if (Input.GetAxisRaw("Jump") == 1 && Grounded())
         {
             anim.SetBool("isJumping", true);
             wingAnim1.SetBool("isJumping", true);
@@ -107,24 +110,24 @@ public class MOVE : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Map"))
         {
-       
             anim.SetBool("isJumping", false);
             wingAnim.SetBool("isJumping", false);
             wingAnim1.SetBool("isJumping", false);
         }
     }
 
-    /*bool Grounded()
+    bool Grounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer); 
-    }*/
+        RaycastHit hit; 
+        return Physics.Raycast(groundCheck.position, -Vector3.up,  distToGround + 0.1f);
+    }
 
     void DoFlipBro()
     {
         if (MovesRight && horizontal < 0f || !MovesRight && horizontal > 0f)
         {
             MovesRight = !MovesRight;
-            Vector3 localScale = transform.localScale;
+            localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
@@ -134,7 +137,7 @@ public class MOVE : MonoBehaviour
         DashAllowed = false;
         isDashing = true;
         //playerrb.useGravity = false;
-        playerrb.velocity = new Vector3(transform.localScale.x* m_DashForce, 0f, 0f);
+        playerrb.AddForce(transform.right * (m_DashForce*localScale.x)); 
         yield return new WaitForSeconds(0.2f);
         //playerrb.useGravity = true;
         isDashing = false;

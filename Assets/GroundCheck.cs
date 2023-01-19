@@ -11,7 +11,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.CompareTag("Map"))
         {
-            m_Move.isGrounded = true;
+
 
             if (other.gameObject.GetComponent<movingPlattform>())
             {
@@ -25,7 +25,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.CompareTag("Map"))
         {
-            m_Move.isGrounded = false;
+           
             if (other.gameObject.GetComponent<movingPlattform>())
             {
                 m_Player.transform.parent = null;
