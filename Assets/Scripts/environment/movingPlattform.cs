@@ -4,55 +4,70 @@ using UnityEngine;
 
 public class movingPlattform : MonoBehaviour
 {
-    int index = 0;
+    int index= 0;
     bool isOnPoint = false;
     [SerializeField] Transform[] WayPoints;
-   float  speed = 15f; 
+   float  speed = 15f;
+    int WayPointCounter;
+ 
     // Start is called before the first frame update
-  
 
+    private void Start()
+    {
+        WayPointCounter = WayPoints.Length-1;
+        Debug.Log("Waypoints in der scene, -1 gezählt, weil ein Array bei 0 anfängt; " + WayPointCounter); 
+
+    }
     // Update is called once per frame
     void Update()
     {
 
-        if (transform.position != WayPoints[index].transform.position && !isOnPoint)
+        if (!isOnPoint)
         {
-            //wenn nicht, dann soll er dahin gehen
-            moveToPos();
+            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed * Time.deltaTime);
+            //wenn der gegner am ziel ist, kriege neuen weg punkt 
+            if (this.transform.position == WayPoints[index].position)
+            {
+
+                isOnPoint = true;
+                if (index < WayPoints.Length - 1)
+                {
+                    index++;
+                }
+                else
+                {
+                    index = 0; 
+                }
+                isOnPoint = false;
+
+            }
+
         }
+    
+
     }
 
     //hier holt man sich eine neue position her 
     void GetPos()
     {
-        switch (index)
-        {
-            case 0:
-                index = 1;
-                isOnPoint = false;
-                break;
-            case 1:
-                index = 0;
-                isOnPoint = false;
-                break;
-        }
 
-        //laufe zur nächsten position 
-        moveToPos();
+    
     }
 
     void moveToPos()
     {
-        //gegner läuft zum wegpunkt
-        transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed*Time.deltaTime);
-        //wenn der gegner am ziel ist, kriege neuen weg punkt 
-        if (this.transform.position == WayPoints[index].position)
+        while (index < WayPointCounter)
         {
-            isOnPoint = true;
-            GetPos();
-
+            //gegner läuft zum wegpunkt
+            transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed * Time.deltaTime);
+            //wenn der gegner am ziel ist, kriege neuen weg punkt 
+            if (this.transform.position == WayPoints[index].position)
+            {
+            
+                isOnPoint = true;
+                GetPos();
+          
+            }
         }
-
-        
     }
 }
