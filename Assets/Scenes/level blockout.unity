@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 1941237248}
     - target: {fileID: 1684074800337980652, guid: cfde4d59c6645418da3b3487b5cd1dec, type: 3}
       propertyPath: m_DashForce
-      value: 2000
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 1684074800337980652, guid: cfde4d59c6645418da3b3487b5cd1dec, type: 3}
       propertyPath: FallMultiplayer
@@ -10169,6 +10169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1941237248}
   - component: {fileID: 1941237249}
+  - component: {fileID: 1941237250}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -10204,6 +10205,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.1796646, y: 1.9342959, z: 1.4865528}
   m_Center: {x: -0.07192612, y: -0.10902822, z: 0.24327621}
+--- !u!114 &1941237250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941237247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ec13a52f0ba4315bd390e935ee944e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Move: {fileID: 1981245253}
+  m_Player: {fileID: 170917163}
 --- !u!1001 &1951144298
 PrefabInstance:
   m_ObjectHideFlags: 0
