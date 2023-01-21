@@ -34,7 +34,7 @@ public class MOVE : MonoBehaviour
 
     float distToGround; 
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] private LayerMask ignoreLayer; 
 
 
 
@@ -42,7 +42,7 @@ public class MOVE : MonoBehaviour
     void Start()
     {
         localScale = transform.localScale;
-        distToGround = this.GetComponent<BoxCollider>().bounds.extents.y; 
+        distToGround = this.GetComponent<SphereCollider>().bounds.extents.y; 
         Player = this.GetComponent<Transform>(); 
         moveRight = new Vector3(0, 180, 0);
         moveLeft = new Vector3(0, 0, 0);
@@ -52,6 +52,7 @@ public class MOVE : MonoBehaviour
     }
     private void Update()
     {
+        Physics.Raycast(groundCheck.position, -Vector3.up, distToGround + 0.2f, ignoreLayer);
         if (isDashing)
         {
             return; 
@@ -72,7 +73,7 @@ public class MOVE : MonoBehaviour
 
         DoFlipBro();
 
-        if (Input.GetAxisRaw("Jump") == 1 && Grounded())
+        if (Input.GetButtonDown("Jump") && Grounded())
         {
             anim.SetBool("isJumping", true);
             wingAnim1.SetBool("isJumping", true);
@@ -93,8 +94,9 @@ public class MOVE : MonoBehaviour
             return; 
         }
             currentYVelocity = playerrb.velocity.y;
-            //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-            playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+        //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+        //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+        playerrb.AddForce(horizontal * playerMovementSpeed*Time.deltaTime * Player.right); 
           
         if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
         {
@@ -119,7 +121,17 @@ public class MOVE : MonoBehaviour
     bool Grounded()
     {
         RaycastHit hit; 
-        return Physics.Raycast(groundCheck.position, -Vector3.up,  distToGround + 0.1f);
+        Debug.DrawRay(groundCheck.position, -Vector3.up, Color.black);
+        if (Physics.Raycast(groundCheck.position, -Vector3.up, out hit, distToGround - 0.1f))
+        {
+            if (hit.transform.gameObject.CompareTag("Map"))
+            {
+                return true; 
+            }
+          
+        }
+        return false; 
+  
     }
 
     void DoFlipBro()
@@ -130,7 +142,7 @@ public class MOVE : MonoBehaviour
             localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
-        }
+        } 
     }
     IEnumerator DashDuration()
     {

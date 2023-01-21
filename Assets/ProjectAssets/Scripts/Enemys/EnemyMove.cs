@@ -21,10 +21,26 @@ public class EnemyMove : MonoBehaviour
     //schaden den der gegner macht 
     float damage = 1f;
     float PlayerDirection;
+    public bool WallDetected;
+    [Tooltip("Distance which defines, when the enemy should attack the player")]
+    [SerializeField]float EnemyAttackDistance =55f;
+    //Base value of the attack distance; 
+    float EADbase;
+    [Tooltip("distance that defines, when the enemy should stop hounting the player")]
+    [SerializeField] float GoesBackToPatrol = 30f;
+    float GBPBase; 
+    [SerializeField]LayerMask LayerToCheck;
+    [SerializeField]LayerMask IgnoreLayer; 
+    [Tooltip("The Eye of the Enemy. It is not placed on the hight of the visible eyes, to detect lower Obstacles")]
+    [SerializeField] Transform EnemyEye;
+    bool canFlip;
+    Vector3 localScale; 
 
     private void Start()
     {
         speed = basespeed;
+        EADbase = EnemyAttackDistance;
+        GBPBase = GoesBackToPatrol; 
         stickHunterAnimator = GetComponent<Animator>();
     }
 
@@ -44,7 +60,7 @@ public class EnemyMove : MonoBehaviour
             moveToPos();
         }
         //wenn der Spieler in der nähe, greife an
-        if (Vector3.Distance(transform.position, Player.transform.position) < 30f && attack == false)
+        if (Vector3.Distance(transform.position, Player.transform.position) < EnemyAttackDistance && attack == false && !WallDetected)
         {
             attack = true;
         }
@@ -69,39 +85,61 @@ public class EnemyMove : MonoBehaviour
         {
             this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
+
+        RaycastHit sight;
+        Debug.DrawRay(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), Color.yellow);
+        if (Physics.Raycast(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), out sight, 10f, LayerToCheck))
+        { 
+            WallDetected = true;
+            EnemyAttackDistance = 10f;
+            GoesBackToPatrol = 5f;
+            canFlip = true;
+            DoFlipBro(); 
+            isOnPoint = false; 
+            index = 1; 
+        }
+
         //gegner greift an
-        if (attack)
+        if (attack && !WallDetected)
         {
-            Debug.Log("auf in die schlacht");
             transform.position = Vector3.MoveTowards(transform.position, PlayerPos, speed);
-            //this.transform.LookAt(lookAtPlayer, Vector3.up);
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
-        if (Vector3.Distance(transform.position, Player.transform.position) > 55f)
+        if (Vector3.Distance(transform.position, Player.transform.position) > GoesBackToPatrol)
         {
             attack = false;
         }
     }
 
-    //hier holt man sich eine neue position her 
+    //hier holt man sich eine neue position her
     void GetPos()
     {
+        if (WallDetected)
+        {
+            GoesBackToPatrol = GBPBase;
+            EnemyAttackDistance = EADbase;
+            WallDetected = false;
+
+        }
+        
         switch (index)
         {
             case 0:
                 index = 1;
                 isOnPoint = false;
-                this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                canFlip = true;
+                DoFlipBro();
                 break;
             case 1:
                 index = 0;
                 isOnPoint = false;
-                this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                canFlip = true;
+                DoFlipBro();
                 break;
         }
-
+        moveToPos(); 
         //laufe zur nächsten position 
-        moveToPos();
+
     }
 
     void moveToPos()
@@ -137,6 +175,17 @@ public class EnemyMove : MonoBehaviour
         if (Vector3.Distance(transform.position, Player.transform.position) < 6f)
         {
             Player.gameObject.GetComponent<PlayerHealth>().GetDamage(damage);
+        }
+    }
+
+    void DoFlipBro()
+    {
+        if (canFlip)
+        {
+            canFlip = false; 
+            localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 }
