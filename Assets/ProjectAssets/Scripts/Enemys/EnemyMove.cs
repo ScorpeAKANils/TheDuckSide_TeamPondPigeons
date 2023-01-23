@@ -8,29 +8,30 @@ public class EnemyMove : MonoBehaviour
     Animator stickHunterAnimator;
     //positions angaben für Waypoints und Spieler 
     [SerializeField] Transform[] WayPoints;
-    int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
+    public int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
     [SerializeField] Transform Player;
     Vector3 PlayerPos;
+    [Tooltip("Is the WayPoint on the Left or right side of the Enemy?")]
+    float WayPointDir; 
     //geschwindigkeit gegner
     private float basespeed = 0.2f;
     private float speed;
     //legt fest ob der gegner angreift
     bool attack = false;
     //ist der Gegner am Waypoint angekommen? 
-    bool isOnPoint = false;
+    public bool isOnPoint = false;
     //schaden den der gegner macht 
     float damage = 1f;
     float PlayerDirection;
     public bool WallDetected;
     [Tooltip("Distance which defines, when the enemy should attack the player")]
-    [SerializeField]float EnemyAttackDistance =55f;
+    [SerializeField]float EnemyAttackDistance =35f;
     //Base value of the attack distance; 
     float EADbase;
     [Tooltip("distance that defines, when the enemy should stop hounting the player")]
-    [SerializeField] float GoesBackToPatrol = 30f;
+    [SerializeField] float GoesBackToPatrol = 45f;
     float GBPBase; 
     [SerializeField]LayerMask LayerToCheck;
-    [SerializeField]LayerMask IgnoreLayer; 
     [Tooltip("The Eye of the Enemy. It is not placed on the hight of the visible eyes, to detect lower Obstacles")]
     [SerializeField] Transform EnemyEye;
     bool canFlip;
@@ -49,22 +50,33 @@ public class EnemyMove : MonoBehaviour
     {
         PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         PlayerDirection = Player.position.x - transform.position.x;
+
+
+        WayPointDir = WayPoints[index].position.x - this.transform.position.x; 
+
+
     }
 
     void FixedUpdate()
     {
         //abfrage, ob der gegner schom am weg punkt ist
-        if (transform.position != WayPoints[index].transform.position && !isOnPoint && attack == false)
+        if (transform.position != WayPoints[index].transform.position && attack == false)
         {
             //wenn nicht, dann soll er dahin gehen 
             moveToPos();
+        }else  if (this.transform.position == WayPoints[index].position && attack == false)
+        {
+            isOnPoint = true; 
+            GetPos();
         }
         //wenn der Spieler in der nähe, greife an
         if (Vector3.Distance(transform.position, Player.transform.position) < EnemyAttackDistance && attack == false && !WallDetected)
         {
             attack = true;
+            EnemyAttackDistance = EADbase;
+            GoesBackToPatrol = GBPBase;
         }
-
+        DoFlipBro(); 
         //switches to attackanimation and stops movement when in range of player
         if (Vector3.Distance(transform.position, Player.transform.position) < 6f)
         {
@@ -77,31 +89,29 @@ public class EnemyMove : MonoBehaviour
             stickHunterAnimator.SetBool("isAttacking", false);
         }
 
-        if (PlayerDirection < 0 && attack)
-        {
-            this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
-        }
-        else if (PlayerDirection > 0 && attack)
-        {
-            this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        }
 
         RaycastHit sight;
         Debug.DrawRay(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), Color.yellow);
-        if (Physics.Raycast(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), out sight, 10f, LayerToCheck))
-        { 
+        if (Physics.Raycast(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), out sight, 15f, LayerToCheck))
+        {
             WallDetected = true;
-            EnemyAttackDistance = 10f;
-            GoesBackToPatrol = 5f;
+            attack = false; 
+            EnemyAttackDistance = 5f;
+            GoesBackToPatrol = 10f;
             canFlip = true;
-            DoFlipBro(); 
-            isOnPoint = false; 
-            index = 1; 
+            DoFlipBro();
+            isOnPoint = false;
+            //index = 1; 
+        }
+        else
+        {
+            WallDetected = false;
+
         }
 
         //gegner greift an
         if (attack && !WallDetected)
-        {
+        { 
             transform.position = Vector3.MoveTowards(transform.position, PlayerPos, speed);
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
@@ -110,55 +120,90 @@ public class EnemyMove : MonoBehaviour
             attack = false;
         }
     }
-
-    //hier holt man sich eine neue position her
+    
     void GetPos()
     {
-        if (WallDetected)
-        {
-            GoesBackToPatrol = GBPBase;
-            EnemyAttackDistance = EADbase;
-            WallDetected = false;
+        //if (WallDetected)
+        //{
+        //    GoesBackToPatrol = GBPBase;
+        //    EnemyAttackDistance = EADbase;
+        //    WallDetected = false;
 
-        }
-        
-        switch (index)
-        {
-            case 0:
-                index = 1;
-                isOnPoint = false;
-                canFlip = true;
-                DoFlipBro();
-                break;
-            case 1:
+        //    switch (index)
+        //    {
+        //        case 0:
+        //            index = 1;
+        //            isOnPoint = false;
+        //            canFlip = true;
+        //            DoFlipBro();
+        //            break;
+        //        case 1:
+        //            index = 0;
+        //            isOnPoint = false;
+        //            canFlip = true;
+        //            DoFlipBro();
+        //            break;
+        //    }
+        //    moveToPos();
+
+        //}
+        //else
+        //{
+        //    switch (index)
+        //    {
+        //        case 0:
+        //            index = 1;
+        //            isOnPoint = false;
+        //            canFlip = true;
+        //            DoFlipBro();
+        //            break;
+        //        case 1:
+        //            index = 0;
+        //            isOnPoint = false;
+        //            canFlip = true;
+        //            DoFlipBro();
+        //            break;
+        //    }
+        //    moveToPos();
+        //}
+
+
+            //Debug.Log("nice, endlich da");
+            //isOnPoint = true;
+            index++;
+            if (index == WayPoints.Length)
+            {
                 index = 0;
-                isOnPoint = false;
-                canFlip = true;
-                DoFlipBro();
-                break;
-        }
-        moveToPos(); 
-        //laufe zur nächsten position 
+            }
+            isOnPoint = false; 
+            Debug.Log("ich gehe zu Punkt: " + index);
+        
+
+
+
+
+        ////laufe zur nächsten position 
 
     }
 
     void moveToPos()
     {
-        //gegner läuft zum wegpunkt
+        /*//gegner läuft zum wegpunkt
         transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed);
         //wenn der gegner am ziel ist, kriege neuen weg punkt 
         if (this.transform.position == WayPoints[index].position)
         {
-            isOnPoint = true;
-            GetPos();
-        }
+            isOnPoint = true; 
+            //GetPos();
+        }*/
+
+        transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed /** Time.deltaTime*/);
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-
             StartCoroutine(damageYield());
         }
     }
@@ -180,12 +225,30 @@ public class EnemyMove : MonoBehaviour
 
     void DoFlipBro()
     {
+        canFlip = true; 
         if (canFlip)
         {
-            canFlip = false; 
-            localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
+            if (PlayerDirection < 0 && attack)
+            {
+                canFlip = false; 
+                this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+            }
+            else if (PlayerDirection > 0 && attack)
+            {
+                canFlip = false;
+                this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            }else if (WayPointDir < 0 && !attack)
+            {
+                canFlip = false;
+                this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+            }
+            else if (WayPointDir > 0 && !attack)
+            {
+                canFlip = false;
+                this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            }
+
+           
         }
     }
 }
