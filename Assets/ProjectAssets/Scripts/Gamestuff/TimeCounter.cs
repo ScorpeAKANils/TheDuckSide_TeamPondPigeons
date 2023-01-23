@@ -20,7 +20,8 @@ public class TimeCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeCounter += Time.deltaTime;
+        //timeCounter += Time.deltaTime;
+        timeCounter = Mathf.Round((timeCounter + Time.deltaTime) * 100) / 100; 
         TimeCountertxt.text = "Time: " + timeCounter.ToString(); 
         if (Highscore<= 0 && endLevel.EndLevel || Highscore > timeCounter && endLevel.EndLevel)
         {
