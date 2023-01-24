@@ -30,8 +30,8 @@ public class MOVE : MonoBehaviour
     bool isWalking = false;
     float time;
     bool isDashing;
-    Vector3 localScale; 
-
+    Vector3 localScale;
+    public bool canWalk = true; 
     float distToGround; 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask ignoreLayer; 
@@ -57,34 +57,36 @@ public class MOVE : MonoBehaviour
         {
             return; 
         }
-        horizontal = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
-        {
+        
+            horizontal = Input.GetAxisRaw("Horizontal");
+            if (Input.GetKeyUp(KeyCode.A) | Input.GetKeyUp(KeyCode.D))
+            {
 
-            isWalking = false;
-            anim.SetBool("isWalking", false);
-            wingAnim.SetBool("isWalking", false);
-            wingAnim1.SetBool("isWalking", false);
-        }
-        if (Input.GetKeyDown(KeyCode.R) && DashAllowed)
-        {
-            StartCoroutine(DashDuration());
-        }
+                isWalking = false;
+                anim.SetBool("isWalking", false);
+                wingAnim.SetBool("isWalking", false);
+                wingAnim1.SetBool("isWalking", false);
+            }
+            if (Input.GetKeyDown(KeyCode.R) && DashAllowed)
+            {
+                StartCoroutine(DashDuration());
+            }
 
-        DoFlipBro();
+            DoFlipBro();
 
-        if (Input.GetButtonDown("Jump") && Grounded())
-        {
-            anim.SetBool("isJumping", true);
-            wingAnim1.SetBool("isJumping", true);
-            wingAnim.SetBool("isJumping", true);
-            //isGrounded = false;
-            playerrb.velocity = Vector3.up * jump;
-        }
-        if (playerrb.velocity.y < 0)
-        {
-            playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
-        }
+            if (Input.GetButtonDown("Jump") && Grounded())
+            {
+                anim.SetBool("isJumping", true);
+                wingAnim1.SetBool("isJumping", true);
+                wingAnim.SetBool("isJumping", true);
+                //isGrounded = false;
+                playerrb.velocity = Vector3.up * jump;
+            }
+            if (playerrb.velocity.y < 0)
+            {
+                playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
+            }
+        
  
     }
     void FixedUpdate()
@@ -93,18 +95,23 @@ public class MOVE : MonoBehaviour
         {
             return; 
         }
-            currentYVelocity = playerrb.velocity.y;
-        //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-        //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
-        playerrb.AddForce(horizontal * playerMovementSpeed*Time.deltaTime * Player.right); 
-          
-        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
+        if (canWalk)
         {
-            isWalking = true;
-            anim.SetBool("isWalking", true);
-            wingAnim.SetBool("isWalking", true);
-            wingAnim1.SetBool("isWalking", true);
+            currentYVelocity = playerrb.velocity.y;
+            //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+            playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
+
+            if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
+            {
+                isWalking = true;
+                anim.SetBool("isWalking", true);
+                wingAnim.SetBool("isWalking", true);
+                wingAnim1.SetBool("isWalking", true);
+            }
+
         }
+
       
     }
     //groundcheck

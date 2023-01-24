@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Shoot : MonoBehaviour
 {
     //spawn Point der Bullet
@@ -20,7 +20,12 @@ public class Shoot : MonoBehaviour
     float bulletLifespan = 3f;
     public bool fullAuto = false;
     public bool tripleShot = false;
+    [Tooltip("Value of the Slider when it is fully charged")]
+    float maxCoolDown = 0.75f;
+    [Tooltip("current value of the slider")]
+    float currentCoolDown = 0f; 
 
+    [SerializeField] Slider GunCoolDownSlider; 
  float time; 
 
     // Update is called once per frame
@@ -37,9 +42,31 @@ public class Shoot : MonoBehaviour
             if (Input.GetButton("Fire1") || fullAuto)
             {
                 if (tripleShot) StartCoroutine(tripleshotRoutine());
-                else StartCoroutine(shootRoutine());
+                else
+                {
+                    if (reloaded)
+                    {
+                        currentCoolDown = 0f; 
+                        shoot(); 
+                    }
+                   
+                }
+                //StartCoroutine(shootRoutine());
             }
         }
+
+        if (currentCoolDown >= maxCoolDown)
+        {
+            reloaded = true;
+        }
+        else
+        {
+            reloaded = false; 
+            currentCoolDown += Time.deltaTime;
+            currentCoolDown = Mathf.Clamp(currentCoolDown, 0f, maxCoolDown); 
+        }
+
+        GunCoolDownSlider.value = currentCoolDown / maxCoolDown;
 
         if (Input.GetButtonDown("Fire2") && BigShotReady)
         {
@@ -71,14 +98,16 @@ public class Shoot : MonoBehaviour
             Destroy(bullet, bulletLifespan);
     }
 
-    public IEnumerator shootRoutine()
+    /*public IEnumerator shootRoutine()
     {
         reloaded = false;
         shoot();
+       
         yield return new WaitForSeconds(reloadTime);
         // Debug.Log("ReloadTime: " + reloadTime);
         reloaded = true;
-    }
+        GunCoolDownSlider.value = maxCoolDown/minCoolDown;
+    }*/
     public IEnumerator tripleshotRoutine()
     {
         reloaded = false;
