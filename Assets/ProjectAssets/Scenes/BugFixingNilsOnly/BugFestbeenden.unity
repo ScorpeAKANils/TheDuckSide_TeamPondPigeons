@@ -1772,6 +1772,44 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319643576}
   m_Mesh: {fileID: 2583101530987267327, guid: 00a3cd19d9ff94b4e982cc1d53f9dcff, type: 3}
+--- !u!1 &332698750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5497330711185927731, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
+  m_PrefabInstance: {fileID: 1174490881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &332698754
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332698750}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8747b99a02f00b348b6246550957d6fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &332698755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332698750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a195ecb2097b654c86e17b244c685e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  falleActive: 1
 --- !u!1 &339884099
 GameObject:
   m_ObjectHideFlags: 0
@@ -5493,7 +5531,7 @@ GameObject:
   - component: {fileID: 916162877}
   - component: {fileID: 916162876}
   - component: {fileID: 916162875}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (6)
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -5508,7 +5546,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916162873}
   m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.96, y: -0.49, z: 286.22}
+  m_LocalPosition: {x: 1.96, y: -0.27, z: 286.22}
   m_LocalScale: {x: 1.6327163, y: 1, z: 1.457489}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6717,6 +6755,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: testfalle
       objectReference: {fileID: 0}
+    - target: {fileID: 5497330711185927732, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
+      propertyPath: m_Size.y
+      value: 2.3504815
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497330711185927732, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
+      propertyPath: m_Size.z
+      value: 11.986728
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497330711185927732, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
+      propertyPath: m_Center.y
+      value: -0.40975928
+      objectReference: {fileID: 0}
+    - target: {fileID: 5497330711185927732, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
+      propertyPath: m_Center.z
+      value: 3.4064517
+      objectReference: {fileID: 0}
     - target: {fileID: 5497330711185927734, guid: d045f8fd6aa84438295bbc8e2058ea01, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -7260,7 +7314,7 @@ GameObject:
   - component: {fileID: 1332011182}
   - component: {fileID: 1332011181}
   - component: {fileID: 1332011180}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: platform (1)
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -7275,7 +7329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332011178}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.76}
   m_LocalScale: {x: 10, y: 0.3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13840,8 +13894,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 7.706269
-  m_Center: {x: 0, y: 0.12178006, z: 0}
+  m_Radius: 7.8592916
+  m_Center: {x: 0, y: -0.06167972, z: 0}
 --- !u!33 &1703912659751787908
 MeshFilter:
   m_ObjectHideFlags: 0

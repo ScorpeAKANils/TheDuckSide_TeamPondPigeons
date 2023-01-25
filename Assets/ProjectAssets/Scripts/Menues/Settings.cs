@@ -44,8 +44,8 @@ public class Settings : MonoBehaviour
 
     public void setRes(int resIndex)
     {
-        currentRes = resIndex;
-        Resolution res = resolutions[currentRes];
+     
+        Resolution res = resolutions[resIndex];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen); 
     }
 }
