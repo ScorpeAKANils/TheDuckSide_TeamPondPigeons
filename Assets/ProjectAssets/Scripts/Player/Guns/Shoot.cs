@@ -39,34 +39,35 @@ public class Shoot : MonoBehaviour
         //abfragen ob Linke Maustaste gedrückt wurde
         if (reloaded)
         {
-            if (Input.GetButtonDown("Fire1") || Input.GetButton("Fire1") && fullAuto)
+            if (Input.GetButton("Fire1") || fullAuto)
             {
                 if (tripleShot)
                 {
                     StartCoroutine(tripleshotRoutine());
                 }
-                else
+                else if (!tripleShot)
                 {
-                    if (reloaded && !tripleShot)
-                    {
+                 
+                    
                         currentCoolDown = 0f;
                         shoot();
-                    }
+                    
 
                 }
                 //StartCoroutine(shootRoutine());
             }
         }
-
-        if (currentCoolDown >= maxCoolDown)
+        if (!tripleShot)
         {
-            reloaded = true;
-        }
-        else
-        {
-            reloaded = false; 
-            currentCoolDown += Time.deltaTime;
-            currentCoolDown = Mathf.Clamp(currentCoolDown, 0f, maxCoolDown); 
+            if (currentCoolDown >= maxCoolDown)
+            {
+                reloaded = true;
+            }
+            else
+            {
+                currentCoolDown += Time.deltaTime;
+                currentCoolDown = Mathf.Clamp(currentCoolDown, 0f, maxCoolDown);
+            }
         }
 
         GunCoolDownSlider.value = currentCoolDown / maxCoolDown;
@@ -116,6 +117,7 @@ public class Shoot : MonoBehaviour
         reloaded = false;
         for (int i = 0; i < 3; i++)
         {
+            //currentCoolDown = 0f;
             shoot();
             yield return new WaitForSeconds(0.07f);
         }
