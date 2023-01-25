@@ -34,8 +34,8 @@ public class MOVE : MonoBehaviour
     public bool canWalk = true; 
     float distToGround; 
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask ignoreLayer; 
-
+    [SerializeField] private LayerMask ignoreLayer;
+    int colCount = 0;
 
 
     // Start is called before the first frame update
@@ -117,12 +117,16 @@ public class MOVE : MonoBehaviour
     //groundcheck
     private void OnCollisionEnter(Collision collision)
     {
+      
         if (collision.gameObject.CompareTag("Map"))
         {
             anim.SetBool("isJumping", false);
             wingAnim.SetBool("isJumping", false);
             wingAnim1.SetBool("isJumping", false);
         }
+  
+        colCount++;
+        Debug.Log("Player Collididiert mit Objekt: " +  collision.gameObject + "Collision Nr: " + colCount.ToString()); 
     }
 
     bool Grounded()
