@@ -61,24 +61,24 @@ public class PowerupManager : MonoBehaviour
             other.gameObject.SetActive(false);
         }
         
-        if (other.CompareTag("testfalle"))
-        {
-            testfalle(1);
-            other.GetComponent<BoxCollider>().enabled = false; 
+        //if (other.CompareTag("testfalle"))
+        //{
+        //    testfalle(1);
+        //    other.GetComponent<BoxCollider>().enabled = false; 
 
-        }
+        //}
         
     }
 
-    void testfalle(int damageamount) //atm nicht verwendet
-    {
-        healthscript.GetDamage(2);
-    }
+    //void testfalle(int damageamount) //atm nicht verwendet
+    //{
+    //    healthscript.GetDamage(2);
+    //}
 
-    void trap(int damageamount)
-    {
-        healthscript.GetDamage(2);
-    }
+    //void trap(int damageamount)
+    //{
+    //    healthscript.GetDamage(2);
+    //}
 
     void smallHeal()
     {

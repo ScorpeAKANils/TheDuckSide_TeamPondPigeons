@@ -39,17 +39,20 @@ public class Shoot : MonoBehaviour
         //abfragen ob Linke Maustaste gedrückt wurde
         if (reloaded)
         {
-            if (Input.GetButton("Fire1") || fullAuto)
+            if (Input.GetButtonDown("Fire1") || Input.GetButton("Fire1") && fullAuto)
             {
-                if (tripleShot) StartCoroutine(tripleshotRoutine());
+                if (tripleShot)
+                {
+                    StartCoroutine(tripleshotRoutine());
+                }
                 else
                 {
-                    if (reloaded)
+                    if (reloaded && !tripleShot)
                     {
-                        currentCoolDown = 0f; 
-                        shoot(); 
+                        currentCoolDown = 0f;
+                        shoot();
                     }
-                   
+
                 }
                 //StartCoroutine(shootRoutine());
             }
