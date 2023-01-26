@@ -18,6 +18,7 @@ public class MainMenue : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         kills = PlayerPrefs.GetInt("killCounter");
         highscore = PlayerPrefs.GetFloat("Highscore");
     }
@@ -29,6 +30,7 @@ public class MainMenue : MonoBehaviour
             Time.timeScale = 0.000000f;
             Debug.Log(Time.deltaTime);
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true; 
             hasBreak = true;    
             foreach (GameObject game in m_MenuStuff)
             {
@@ -39,6 +41,7 @@ public class MainMenue : MonoBehaviour
             Time.timeScale = 1f;
             hasBreak = false; 
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             CloseMenu();
         }
     }
@@ -205,6 +208,7 @@ public class MainMenue : MonoBehaviour
     public void BackToMainMenue()
     {
 
+        Time.timeScale = 1; 
         SceneManager.LoadScene(0); 
     }
 
@@ -213,6 +217,7 @@ public class MainMenue : MonoBehaviour
     public void CloseMenu()
     {
         Time.timeScale = 1f;
+        Cursor.visible = false;
         foreach (GameObject Graphics in m_Graphics)
         {
             Graphics.SetActive(false);
@@ -220,7 +225,7 @@ public class MainMenue : MonoBehaviour
 
         foreach (GameObject menu in m_MenuStuff)
         {
-            menu.SetActive(true);
+            menu.SetActive(false);
         }
 
         foreach (GameObject sound in m_Sound)
