@@ -98,7 +98,7 @@ public class Shoot : MonoBehaviour
             m_Player.velocity = Vector3.up * 34f;
             // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
             //bullet flug direction geben 
-            bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
+            bullet.GetComponent<Rigidbody>().AddForce(Gun.TransformDirection(Vector3.right) * 50f, ForceMode.VelocityChange);
             Destroy(bullet, bulletLifespan);
     }
 
