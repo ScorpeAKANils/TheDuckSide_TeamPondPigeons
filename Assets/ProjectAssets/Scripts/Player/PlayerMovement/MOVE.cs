@@ -39,10 +39,12 @@ public class MOVE : MonoBehaviour
     bool groundedoderso;
     [SerializeField] GameObject[] Menu;
     bool hasBreak = false;
-    [SerializeField] MainMenue main;
+    [SerializeField] MainMenue main; 
     // Start is called before the first frame update
+
     void Start()
     {
+        Time.timeScale = 1f; 
         localScale = transform.localScale;
         distToGround = this.GetComponent<SphereCollider>().bounds.extents.y;
         Player = this.GetComponent<Transform>();
@@ -54,8 +56,7 @@ public class MOVE : MonoBehaviour
     }
     private void Update()
     {
-        if (!hasBreak)
-        {
+       
             Physics.Raycast(groundCheck.position, -Vector3.up, distToGround + 0.2f, ignoreLayer);
             if (isDashing)
             {
@@ -90,33 +91,24 @@ public class MOVE : MonoBehaviour
             {
                 playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
             }
-        }
-
-        //Paus Menu
-        if (Input.GetKeyDown(KeyCode.Escape) && hasBreak == false)
-        {
-            Time.timeScale = 0f;
-            hasBreak = true;
-            Cursor.lockState = CursorLockMode.None;
-            foreach (GameObject game in Menu)
+            if (canWalk)
             {
-                game.SetActive(true);
-            }
+                currentYVelocity = playerrb.velocity.y;
+                //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+                //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+                playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
 
-
-
-            if (Input.GetKeyDown(KeyCode.Escape) && hasBreak)
-            {
-                Time.timeScale = 1f;
-                Cursor.lockState = CursorLockMode.Locked;
-                hasBreak = false;
-                main.CloseMenu();
+                if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
+                {
+                    isWalking = true;
+                    anim.SetBool("isWalking", true);
+                    wingAnim.SetBool("isWalking", true);
+                    wingAnim1.SetBool("isWalking", true);
+                }
 
             }
-
-        }
     }
-        void FixedUpdate()
+        /*void FixedUpdate()
         {
             if (!hasBreak)
             {
@@ -124,26 +116,11 @@ public class MOVE : MonoBehaviour
                 {
                     return;
                 }
-                if (canWalk)
-                {
-                    currentYVelocity = playerrb.velocity.y;
-                    //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-                    //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
-                    playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
-
-                    if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
-                    {
-                        isWalking = true;
-                        anim.SetBool("isWalking", true);
-                        wingAnim.SetBool("isWalking", true);
-                        wingAnim1.SetBool("isWalking", true);
-                    }
-
-                }
+            
             }
 
 
-        }
+        }*/
         //groundcheck
         private void OnCollisionEnter(Collision collision)
         {

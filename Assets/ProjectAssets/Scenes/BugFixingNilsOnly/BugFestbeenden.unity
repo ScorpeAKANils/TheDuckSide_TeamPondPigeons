@@ -17021,11 +17021,17 @@ MonoBehaviour:
   - {fileID: 2027945109}
   m_Stats: []
   m_Option:
-  - {fileID: 119464028}
+  - {fileID: 2140788336}
+  - {fileID: 1871221889}
+  - {fileID: 736578962}
   m_Sound:
-  - {fileID: 1858164516}
+  - {fileID: 1057046551}
+  - {fileID: 620825353}
+  - {fileID: 174699909}
   m_Graphics:
-  - {fileID: 2122658866}
+  - {fileID: 1188265418}
+  - {fileID: 1087779358}
+  - {fileID: 879019172}
   killCounterTXT: {fileID: 0}
   HighscoreTXT: {fileID: 0}
 --- !u!114 &2043930465

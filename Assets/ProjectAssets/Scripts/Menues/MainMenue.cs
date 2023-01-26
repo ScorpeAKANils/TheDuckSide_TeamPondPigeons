@@ -13,12 +13,34 @@ public class MainMenue : MonoBehaviour
     [SerializeField] TextMeshProUGUI killCounterTXT;
     [SerializeField] TextMeshProUGUI HighscoreTXT;
     int kills;
+    bool hasBreak=false; 
     float highscore;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
         kills = PlayerPrefs.GetInt("killCounter");
         highscore = PlayerPrefs.GetFloat("Highscore");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !hasBreak)
+        {
+            Time.timeScale = 0.000000f;
+            Debug.Log(Time.deltaTime);
+            Cursor.lockState = CursorLockMode.None;
+            hasBreak = true;    
+            foreach (GameObject game in m_MenuStuff)
+            {
+                game.SetActive(true);
+            }
+        }else if (Input.GetKeyDown(KeyCode.Escape) && hasBreak)
+        {
+            Time.timeScale = 1f;
+            hasBreak = false; 
+            Cursor.lockState = CursorLockMode.Locked;
+            CloseMenu();
+        }
     }
     //start Button
     public void Level1()
