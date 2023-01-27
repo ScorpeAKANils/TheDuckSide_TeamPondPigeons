@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public Image[] lifeBar;
     public Sprite lifeSprite;
     int sceneIndex;
+    float fullDamage; 
 
     private void Start()
     {
@@ -27,14 +28,15 @@ public class PlayerHealth : MonoBehaviour
         if (vulnerable)
         {
             StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
-            player_health -= damage * damageMultiplier; //take damage
-            //Debug.Log("PlayerHealth: " + player_health);
+            player_health -= damage * damageMultiplier;  //take damage
+            Debug.Log("PlayerHealth: " + player_health);
             if (player_health <= 0) SceneManager.LoadScene(sceneIndex); // in case of death restart level
-            for (int i = 0; i < damage * damageMultiplier; i++)
+            for (int i = 0; i < (damage * damageMultiplier); i++)
             {
                 lifeBar[healthSprites---1].enabled = false;
             }
         }
+
     }
 
     IEnumerator invulnerabilityFrame()
