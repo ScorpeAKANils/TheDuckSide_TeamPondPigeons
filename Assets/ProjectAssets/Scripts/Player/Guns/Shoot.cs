@@ -41,29 +41,33 @@ public class Shoot : MonoBehaviour
         {
             if (Input.GetButton("Fire1") || fullAuto)
             {
-                if (tripleShot) StartCoroutine(tripleshotRoutine());
-                else
+                if (tripleShot)
                 {
-                    if (reloaded)
-                    {
-                        currentCoolDown = 0f; 
-                        shoot(); 
-                    }
-                   
+                    StartCoroutine(tripleshotRoutine());
+                }
+                else if (!tripleShot)
+                {
+                 
+                    
+                        currentCoolDown = 0f;
+                        shoot();
+                    
+
                 }
                 //StartCoroutine(shootRoutine());
             }
         }
-
-        if (currentCoolDown >= maxCoolDown)
+        if (!tripleShot)
         {
-            reloaded = true;
-        }
-        else
-        {
-            reloaded = false; 
-            currentCoolDown += Time.deltaTime;
-            currentCoolDown = Mathf.Clamp(currentCoolDown, 0f, maxCoolDown); 
+            if (currentCoolDown >= maxCoolDown)
+            {
+                reloaded = true;
+            }
+            else
+            {
+                currentCoolDown += Time.deltaTime;
+                currentCoolDown = Mathf.Clamp(currentCoolDown, 0f, maxCoolDown);
+            }
         }
 
         GunCoolDownSlider.value = currentCoolDown / maxCoolDown;
@@ -91,10 +95,10 @@ public class Shoot : MonoBehaviour
     {
             //spawnen der Bullet
             var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
-            m_Player.velocity = Vector3.up * 17f;
+            m_Player.velocity = Vector3.up * 34f;
             // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
             //bullet flug direction geben 
-            bullet.GetComponent<Rigidbody>().AddForce(Gun.right * 50f, ForceMode.VelocityChange);
+            bullet.GetComponent<Rigidbody>().AddForce(Gun.TransformDirection(Vector3.right) * 50f, ForceMode.VelocityChange);
             Destroy(bullet, bulletLifespan);
     }
 
@@ -113,6 +117,7 @@ public class Shoot : MonoBehaviour
         reloaded = false;
         for (int i = 0; i < 3; i++)
         {
+            //currentCoolDown = 0f;
             shoot();
             yield return new WaitForSeconds(0.07f);
         }
