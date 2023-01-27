@@ -239,6 +239,15 @@ public class MainMenue : MonoBehaviour
             Option.SetActive(false);
         }
     }
+
+    public void Restartlevel()
+    {
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+    }
     public void Exit()
     {
      Application.Quit(); 

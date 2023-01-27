@@ -36,7 +36,10 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("PlayerHealth: " + player_health);
             if (player_health <= 0)
             {
-                DeathScreenIMG.SetActive(true); 
+                DeathScreenIMG.SetActive(true);
+                Time.timeScale = 0f;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
             }//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // in case of death restart level
             for (int i = 0; i < (damage * damageMultiplier); i++)
             {
