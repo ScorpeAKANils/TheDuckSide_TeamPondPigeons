@@ -15,7 +15,7 @@ public class bullet : MonoBehaviour
             this.gameObject.SetActive(false);
         }
         //To-Do PowerUp Tags ebenfalls durch fliegbar machen 
-        else if(!other.CompareTag("Player"))
+        else if(!other.CompareTag("Player") && !other.gameObject.CompareTag("Untagged"))
         {
             this.gameObject.SetActive(false);
         }

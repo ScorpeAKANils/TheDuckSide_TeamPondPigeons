@@ -14,10 +14,15 @@ public class PlayerHealth : MonoBehaviour
     public Image[] lifeBar;
     public Sprite lifeSprite;
     int sceneIndex;
+    float fullDamage;
+    [SerializeField] GameObject DeathScreenIMG;
+    private void Awake()
+    {
+        DeathScreenIMG.SetActive(false); 
+    }
 
     private void Start()
     {
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
         player_health = max_player_health;
         healthSprites = (int)max_player_health;
     }
@@ -27,14 +32,21 @@ public class PlayerHealth : MonoBehaviour
         if (vulnerable)
         {
             StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
-            player_health -= damage * damageMultiplier; //take damage
-            //Debug.Log("PlayerHealth: " + player_health);
-            if (player_health <= 0) SceneManager.LoadScene(sceneIndex); // in case of death restart level
-            for (int i = 0; i < damage * damageMultiplier; i++)
+            player_health -= damage * damageMultiplier;  //take damage
+            Debug.Log("PlayerHealth: " + player_health);
+            if (player_health <= 0)
+            {
+                DeathScreenIMG.SetActive(true);
+                Time.timeScale = 0f;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // in case of death restart level
+            for (int i = 0; i < (damage * damageMultiplier); i++)
             {
                 lifeBar[healthSprites---1].enabled = false;
             }
         }
+
     }
 
     IEnumerator invulnerabilityFrame()
