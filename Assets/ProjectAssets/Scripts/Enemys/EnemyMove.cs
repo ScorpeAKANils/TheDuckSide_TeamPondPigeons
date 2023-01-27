@@ -176,7 +176,7 @@ public class EnemyMove : MonoBehaviour
                 index = 0;
             }
             isOnPoint = false; 
-            Debug.Log("ich gehe zu Punkt: " + index);
+            //Debug.Log("ich gehe zu Punkt: " + index);
         
 
 

@@ -133,7 +133,7 @@ public class MOVE : MonoBehaviour
             }
 
             colCount++;
-            Debug.Log("Player Collididiert mit Objekt: " + collision.gameObject + "Collision Nr: " + colCount.ToString());
+            //Debug.Log("Player Collididiert mit Objekt: " + collision.gameObject + "Collision Nr: " + colCount.ToString());
         }
 
         bool Grounded()

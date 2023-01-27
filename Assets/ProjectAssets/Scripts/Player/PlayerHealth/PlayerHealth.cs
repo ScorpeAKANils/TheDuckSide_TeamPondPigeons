@@ -49,6 +49,28 @@ public class PlayerHealth : MonoBehaviour
 
     }
 
+    public void GetDamageByDeathZone(float damage)
+    {
+        if (vulnerable)
+        {
+            StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
+            player_health -= damage;  //take damage
+            Debug.Log("PlayerHealth: " + player_health);
+            if (player_health <= 0)
+            {
+                DeathScreenIMG.SetActive(true);
+                Time.timeScale = 0f;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // in case of death restart level
+            for (int i = 0; i < (damage); i++)
+            {
+                lifeBar[healthSprites-- - 1].enabled = false;
+            }
+        }
+
+    }
+
     IEnumerator invulnerabilityFrame()
     {
         vulnerable = false;

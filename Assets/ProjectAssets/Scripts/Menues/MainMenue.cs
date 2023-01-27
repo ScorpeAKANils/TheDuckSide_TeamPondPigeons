@@ -28,7 +28,7 @@ public class MainMenue : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !hasBreak)
         {
             Time.timeScale = 0.000000f;
-            Debug.Log(Time.deltaTime);
+           //Debug.Log(Time.deltaTime);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true; 
             hasBreak = true;    

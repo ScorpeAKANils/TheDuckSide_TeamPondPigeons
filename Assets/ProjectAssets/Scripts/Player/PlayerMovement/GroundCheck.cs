@@ -20,7 +20,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.CompareTag("Map")&& other.gameObject.GetComponent<movingPlattform>())
         {
-            Debug.Log("Yay, hab meine eltern gefunden!");
+            //Debug.Log("Yay, hab meine eltern gefunden!");
             m_Player.transform.parent = other.gameObject.transform;
         }
     }

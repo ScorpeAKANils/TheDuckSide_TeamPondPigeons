@@ -59,7 +59,7 @@ public class Respawn : MonoBehaviour
         if (other.CompareTag("DeadZone"))
         {
             currentWalkingCoolDown = 0f;
-            m_Health.GetDamage(1);
+            m_Health.GetDamageByDeathZone(1);
             isRespawned = true;
             m_Move.canWalk = false;
             m_PlayerRB.constraints = RigidbodyConstraints.FreezeAll;  
