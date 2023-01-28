@@ -15,15 +15,15 @@ MonoBehaviour:
   version: 5
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_TreeLeavesShader
-  m_Shader: {fileID: -6465566751694194690, guid: dfc1898b585ebc54789b454d44e959af,
-    type: 3}
-  m_ShaderKeywords: 
+  m_Name: Leaves2
+  m_Shader: {fileID: -6465566751694194690, guid: dfc1898b585ebc54789b454d44e959af, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -64,6 +64,6 @@ Material:
     - _Wind_Speed: 0.69
     m_Colors:
     - _Hue_Variation: {r: 1, g: 0.5, b: 0, a: 0.5}
-    - _Leaf_Color: {r: 0.49610662, g: 0.75471693, b: 0.42363828, a: 0}
+    - _Leaf_Color: {r: 0.5176471, g: 0.69803923, b: 0.34117648, a: 0}
     - _Wind_Direction: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
