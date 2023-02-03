@@ -76,7 +76,7 @@ public class MOVE : MonoBehaviour
             {
                 StartCoroutine(DashDuration());
             }
-
+       
             DoFlipBro();
 
             if (Input.GetButtonDown("Jump") && Grounded())
@@ -98,8 +98,9 @@ public class MOVE : MonoBehaviour
                 //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
                 playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
 
-                if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.D))
                 {
+                    DoFlipBro();
                     isWalking = true;
                     anim.SetBool("isWalking", true);
                     wingAnim.SetBool("isWalking", true);
@@ -131,9 +132,6 @@ public class MOVE : MonoBehaviour
                 wingAnim.SetBool("isJumping", false);
                 wingAnim1.SetBool("isJumping", false);
             }
-
-            colCount++;
-            //Debug.Log("Player Collididiert mit Objekt: " + collision.gameObject + "Collision Nr: " + colCount.ToString());
         }
 
         bool Grounded()

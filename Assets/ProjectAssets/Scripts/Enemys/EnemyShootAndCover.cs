@@ -16,11 +16,16 @@ public class EnemyShootAndCover : MonoBehaviour
     bool standUpAllowed = true;
     bool takeCoverAllowed = false;
     [SerializeField] Transform Player;
+    Transform EnemyPos; 
     //[SerializeField] Transform PlayerPos;
     Animator rifleHunterAnimator;
 
     bool shootAble = true;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        EnemyPos = this.GetComponent<Transform>(); 
+    }
     void Start()
     {
         despawnTime = 3f;
@@ -34,7 +39,7 @@ public class EnemyShootAndCover : MonoBehaviour
     {
         //Debug.Log("Start of update enemy shoot and cover");
         //PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
-        if (Vector3.Distance(transform.position, Player.transform.position) < 20f)
+        if (Vector3.Distance(EnemyPos.position, Player.position) < 20f)
         {
             //Debug.Log("spieler ist nahe j‰ger");
             rifleHunterAnimator.SetBool("playerCloseBy", true);
