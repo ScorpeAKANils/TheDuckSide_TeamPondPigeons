@@ -9,6 +9,7 @@ public class EnemyShootAndCover : MonoBehaviour
     [SerializeField] Transform rifleMuzzle;
     [SerializeField] Transform ShootPos;
     [SerializeField] float despawnTime;
+    PlayerHealth m_health; 
     //Vector3 PlayerPos;
     Transform Enemy;
     //Vector3 CoverSize;
@@ -25,6 +26,7 @@ public class EnemyShootAndCover : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        m_health = Player.gameObject.GetComponent<PlayerHealth>();
         EnemyPos = this.GetComponent<Transform>(); 
     }
     void Start()
@@ -38,6 +40,10 @@ public class EnemyShootAndCover : MonoBehaviour
 
     void Update()
     {
+        if (m_health.player_health <= 0)
+        {
+            return;
+        }
         //Debug.Log("Start of update enemy shoot and cover");
         //PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         if (Vector3.Distance(EnemyPos.position, Player.position) < 20f)

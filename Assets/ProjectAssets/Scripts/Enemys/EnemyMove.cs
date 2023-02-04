@@ -10,6 +10,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform[] WayPoints;
     public int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
     [SerializeField] Transform Player;
+    PlayerHealth m_health; 
     Vector3 PlayerPos;
     [Tooltip("Is the WayPoint on the Left or right side of the Enemy?")]
     float WayPointDir; 
@@ -43,11 +44,16 @@ public class EnemyMove : MonoBehaviour
         EADbase = EnemyAttackDistance;
         GBPBase = GoesBackToPatrol; 
         stickHunterAnimator = GetComponent<Animator>();
+        m_health = Player.gameObject.GetComponent<PlayerHealth>(); 
     }
 
 
     private void Update()
     {
+        if (m_health.player_health <= 0)
+        {
+            return; 
+        }
         PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         PlayerDirection = Player.position.x - transform.position.x;
 
@@ -59,6 +65,10 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (m_health.player_health <= 0)
+        {
+            return;
+        }
         //abfrage, ob der gegner schom am weg punkt ist
         if (transform.position != WayPoints[index].transform.position && attack == false)
         {
@@ -78,7 +88,7 @@ public class EnemyMove : MonoBehaviour
         }
         DoFlipBro(); 
         //switches to attackanimation and stops movement when in range of player
-        if (Vector3.Distance(transform.position, Player.transform.position) < 6f)
+        if (Vector3.Distance(transform.position, Player.transform.position) < 2f)
         {
             speed = 0;
             stickHunterAnimator.SetBool("isAttacking", true);

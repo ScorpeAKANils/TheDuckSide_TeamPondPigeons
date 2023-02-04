@@ -7,13 +7,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] float health = 3f;
     Animator EnemyAnim;
     int killCounter;
-    float timeCounter;
-    float dieTime;
+    GameObject enemyBody; 
+
     // Start is called before the first frame update
     private void Start()
     {
         killCounter = PlayerPrefs.GetInt("killCounter");
         EnemyAnim = this.GetComponent<Animator>();
+        enemyBody = this.gameObject; 
     }
 
     public void GetDamage(float damage)
@@ -31,6 +32,6 @@ public class EnemyHealth : MonoBehaviour
     void SetInactive()
     {
 
-        this.gameObject.SetActive(false);
+        enemyBody.gameObject.SetActive(false);
     }
 }

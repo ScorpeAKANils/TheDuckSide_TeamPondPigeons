@@ -15,10 +15,12 @@ public class PlayerHealth : MonoBehaviour
     public Sprite lifeSprite;
     int sceneIndex;
     float fullDamage;
+    Animator playerAnim; 
     [SerializeField] GameObject DeathScreenIMG;
     private void Awake()
     {
-        DeathScreenIMG.SetActive(false); 
+        DeathScreenIMG.SetActive(false);
+        playerAnim = this.GetComponent<Animator>();
     }
 
     private void Start()
@@ -36,10 +38,9 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("PlayerHealth: " + player_health);
             if (player_health <= 0)
             {
-                DeathScreenIMG.SetActive(true);
-                Time.timeScale = 0f;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                playerAnim.SetTrigger("isDead");
+             
+              
             }//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // in case of death restart level
             for (int i = 0; i < (damage * damageMultiplier); i++)
             {
@@ -58,10 +59,9 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("PlayerHealth: " + player_health);
             if (player_health <= 0)
             {
-                DeathScreenIMG.SetActive(true);
-                Time.timeScale = 0f;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                playerAnim.SetTrigger("isDead");
+              
+           
             }//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // in case of death restart level
             for (int i = 0; i < (damage); i++)
             {
@@ -69,6 +69,15 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
+    }
+
+    void deathScreen()
+    {
+
+        Time.timeScale = 0; 
+        DeathScreenIMG.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     IEnumerator invulnerabilityFrame()
