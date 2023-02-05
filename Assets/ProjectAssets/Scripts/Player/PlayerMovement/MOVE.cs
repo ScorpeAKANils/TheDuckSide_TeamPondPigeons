@@ -57,7 +57,7 @@ public class MOVE : MonoBehaviour
     private void Update()
     {
        
-            Physics.Raycast(groundCheck.position, -Vector3.up, distToGround + 0.2f, ignoreLayer);
+            //Physics.Raycast(groundCheck.position, -Vector3.up, distToGround + 0.2f, ignoreLayer);
             if (isDashing)
             {
                 return;
@@ -89,7 +89,7 @@ public class MOVE : MonoBehaviour
             }
             if (playerrb.velocity.y < 0)
             {
-                playerrb.velocity += (FallMultiplayer - 1) * Physics.gravity.y * Vector3.up * Time.deltaTime;
+                playerrb.velocity += (FallMultiplayer - 1) * (Physics.gravity.y * Time.deltaTime * Vector3.up);
             }
             if (canWalk)
             {
@@ -137,15 +137,20 @@ public class MOVE : MonoBehaviour
         bool Grounded()
         {
             RaycastHit hit;
-            Debug.DrawRay(groundCheck.position, -Vector3.up, Color.black);
-            if (Physics.Raycast(groundCheck.position, -Vector3.up, out hit, distToGround - 0.1f))
+            Debug.DrawRay(groundCheck.position, -Vector3.up, Color.black, 3f);
+        if (Physics.Raycast(groundCheck.position, -Vector3.up, out hit, distToGround - 0.01f))
+        {
+            if (hit.transform.gameObject.CompareTag("Map"))
             {
-                if (hit.transform.gameObject.CompareTag("Map"))
-                {
-                    return true;
-                }
-
+                Debug.Log("grounded");
+                return true;
             }
+
+        }
+        else
+        {
+            Debug.Log("not on the ground"); 
+        }
             return false;
 
         }

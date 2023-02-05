@@ -9,6 +9,7 @@ public class Shoot : MonoBehaviour
     [SerializeField] Transform m_GunObj;
     [SerializeField] Rigidbody m_Player;
     [SerializeField] Transform m_PlayerPos;
+    [SerializeField] Animator  muzzleFlash; 
     //bullet Object 
     [SerializeField]GameObject Bullet;
     float GunDir;
@@ -84,6 +85,7 @@ public class Shoot : MonoBehaviour
     private void shoot()
     {
         reloaded = false;
+        muzzleFlash.SetTrigger("Fire"); 
         //spawnen der Bullet
         var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
         //bullet flug direction geben 
@@ -93,7 +95,8 @@ public class Shoot : MonoBehaviour
 
     void BigShoot()
     {
-            //spawnen der Bullet
+        //spawnen der Bullet
+            muzzleFlash.SetTrigger("Fire");
             var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
             m_Player.velocity = Vector3.up * 34f;
             // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);

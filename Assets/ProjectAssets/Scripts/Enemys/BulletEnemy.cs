@@ -12,7 +12,7 @@ public class BulletEnemy : MonoBehaviour
             other.GetComponent<PlayerHealth>().GetDamage(damage);
             this.gameObject.SetActive(false);
         }
-        else if(!other.CompareTag("Gegner") && !other.CompareTag("Map"))
+        else if(!other.CompareTag("Gegner") && !other.gameObject.CompareTag("Untagged"))
         {
             this.gameObject.SetActive(false);
         }

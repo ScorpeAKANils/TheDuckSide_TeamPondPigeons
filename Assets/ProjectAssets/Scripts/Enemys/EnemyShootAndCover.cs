@@ -4,26 +4,29 @@ using UnityEngine;
 
 public class EnemyShootAndCover : MonoBehaviour
 {
-    [SerializeField] Transform CoverPos;
+    //[SerializeField] Transform CoverPos;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform rifleMuzzle;
     [SerializeField] Transform ShootPos;
     [SerializeField] float despawnTime;
-    Vector3 PlayerPos;
+    PlayerHealth m_health; 
+    //Vector3 PlayerPos;
     Transform Enemy;
-    Vector3 CoverSize;
-    Vector3 ShootSize;
+    //Vector3 CoverSize;
+    //Vector3 ShootSize;
     bool standUpAllowed = true;
     bool takeCoverAllowed = false;
     [SerializeField] Transform Player;
     Transform EnemyPos; 
     //[SerializeField] Transform PlayerPos;
     Animator rifleHunterAnimator;
+    [SerializeField] Animator enemyMuzzleFlash; 
 
     bool shootAble = true;
     // Start is called before the first frame update
     private void Awake()
     {
+        m_health = Player.gameObject.GetComponent<PlayerHealth>();
         EnemyPos = this.GetComponent<Transform>(); 
     }
     void Start()
@@ -37,6 +40,10 @@ public class EnemyShootAndCover : MonoBehaviour
 
     void Update()
     {
+        if (m_health.player_health <= 0)
+        {
+            return;
+        }
         //Debug.Log("Start of update enemy shoot and cover");
         //PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         if (Vector3.Distance(EnemyPos.position, Player.position) < 20f)
@@ -96,6 +103,7 @@ public class EnemyShootAndCover : MonoBehaviour
 */
     void shoot()
     {
+        enemyMuzzleFlash.SetTrigger("Fire");
         var Bullet = Instantiate(bullet, rifleMuzzle.position, rifleMuzzle.rotation);
         Bullet.GetComponent<Rigidbody>().AddForce(-rifleMuzzle.right * 50f, ForceMode.VelocityChange);
         Destroy(Bullet, despawnTime);
