@@ -15,14 +15,14 @@ public class EnemyMove : MonoBehaviour
     [Tooltip("Is the WayPoint on the Left or right side of the Enemy?")]
     float WayPointDir; 
     //geschwindigkeit gegner
-    private float basespeed = 0.2f;
+   [SerializeField] private float basespeed = 10f;
     private float speed;
     //legt fest ob der gegner angreift
     bool attack = false;
     //ist der Gegner am Waypoint angekommen? 
     public bool isOnPoint = false;
     //schaden den der gegner macht 
-    float damage = 1f;
+    float damage = 2f;
     float PlayerDirection;
     public bool WallDetected;
     [Tooltip("Distance which defines, when the enemy should attack the player")]
@@ -122,7 +122,7 @@ public class EnemyMove : MonoBehaviour
         //gegner greift an
         if (attack && !WallDetected)
         { 
-            transform.position = Vector3.MoveTowards(transform.position, PlayerPos, speed);
+            transform.position = Vector3.MoveTowards(transform.position, PlayerPos, (speed*Time.deltaTime));
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
         if (Vector3.Distance(transform.position, Player.transform.position) > GoesBackToPatrol)
@@ -207,7 +207,7 @@ public class EnemyMove : MonoBehaviour
             //GetPos();
         }*/
 
-        transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, speed /** Time.deltaTime*/);
+        transform.position = Vector3.MoveTowards(transform.position, WayPoints[index].position, (speed * Time.deltaTime));
     }
 
     private void OnTriggerStay(Collider other)
