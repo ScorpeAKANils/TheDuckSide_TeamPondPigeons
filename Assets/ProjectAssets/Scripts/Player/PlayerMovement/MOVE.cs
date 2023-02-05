@@ -37,6 +37,7 @@ public class MOVE : MonoBehaviour
     [SerializeField] private LayerMask ignoreLayer;
     int colCount = 0;
     bool groundedoderso;
+    GroundCheck gC; 
     [SerializeField] GameObject[] Menu;
     bool hasBreak = false;
     [SerializeField] MainMenue main; 
@@ -44,7 +45,9 @@ public class MOVE : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 1f; 
+
+        Time.timeScale = 1f;
+        gC = groundCheck.gameObject.GetComponent<GroundCheck>();
         localScale = transform.localScale;
         distToGround = this.GetComponent<SphereCollider>().bounds.extents.y;
         Player = this.GetComponent<Transform>();
@@ -87,7 +90,7 @@ public class MOVE : MonoBehaviour
                 //isGrounded = false;
                 playerrb.velocity = Vector3.up * jump;
             }
-            if (playerrb.velocity.y < 0)
+            if (playerrb.velocity.y < 0 && gC.isOnPlattform==false)
             {
                 playerrb.velocity += (FallMultiplayer - 1) * (Physics.gravity.y * Time.deltaTime * Vector3.up);
             }

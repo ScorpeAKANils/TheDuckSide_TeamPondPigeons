@@ -17,6 +17,7 @@ public class EnemyShootAndCover : MonoBehaviour
     bool standUpAllowed = true;
     bool takeCoverAllowed = false;
     [SerializeField] Transform Player;
+    Vector3 aimPos; 
     Transform EnemyPos; 
     //[SerializeField] Transform PlayerPos;
     Animator rifleHunterAnimator;
@@ -26,6 +27,8 @@ public class EnemyShootAndCover : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+
+       
         m_health = Player.gameObject.GetComponent<PlayerHealth>();
         EnemyPos = this.GetComponent<Transform>(); 
     }
@@ -44,6 +47,8 @@ public class EnemyShootAndCover : MonoBehaviour
         {
             return;
         }
+        aimPos = new Vector3(Player.position.x, Player.position.y, Player.position.z);
+        rifleMuzzle.LookAt(aimPos, Vector3.right);
         //Debug.Log("Start of update enemy shoot and cover");
         //PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         if (Vector3.Distance(EnemyPos.position, Player.position) < 20f)
@@ -105,7 +110,7 @@ public class EnemyShootAndCover : MonoBehaviour
     {
         enemyMuzzleFlash.SetTrigger("Fire");
         var Bullet = Instantiate(bullet, rifleMuzzle.position, rifleMuzzle.rotation);
-        Bullet.GetComponent<Rigidbody>().AddForce(-rifleMuzzle.right * 50f, ForceMode.VelocityChange);
+        Bullet.GetComponent<Rigidbody>().AddForce(rifleMuzzle.forward * 50f, ForceMode.VelocityChange);
         Destroy(Bullet, despawnTime);
     }
 

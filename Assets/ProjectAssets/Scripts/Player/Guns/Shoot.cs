@@ -98,7 +98,7 @@ public class Shoot : MonoBehaviour
         //spawnen der Bullet
             muzzleFlash.SetTrigger("Fire");
             var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
-            m_Player.velocity = Vector3.up * 34f;
+            m_Player.velocity = Vector3.up * 45f;
             // m_Player.AddForce(m_PlayerPos.TransformDirection(Vector3.up) * 12f, ForceMode.Impulse);
             //bullet flug direction geben 
             bullet.GetComponent<Rigidbody>().AddForce(Gun.TransformDirection(Vector3.right) * 50f, ForceMode.VelocityChange);
