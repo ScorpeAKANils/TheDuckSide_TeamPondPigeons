@@ -94,25 +94,33 @@ public class MOVE : MonoBehaviour
             {
                 playerrb.velocity += (FallMultiplayer - 1) * (Physics.gravity.y * Time.deltaTime * Vector3.up);
             }
-            if (canWalk)
+        if (Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.D))
+        {
+            DoFlipBro();
+            isWalking = true;
+            anim.SetBool("isWalking", true);
+            wingAnim.SetBool("isWalking", true);
+            wingAnim1.SetBool("isWalking", true);
+        }
+        /*if (canWalk)
+        {
+            currentYVelocity = playerrb.velocity.y;
+            //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+            playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
+
+            if (Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.D))
             {
-                currentYVelocity = playerrb.velocity.y;
-                //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
-                //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
-                playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
-
-                if (Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.D))
-                {
-                    DoFlipBro();
-                    isWalking = true;
-                    anim.SetBool("isWalking", true);
-                    wingAnim.SetBool("isWalking", true);
-                    wingAnim1.SetBool("isWalking", true);
-                }
-
+                DoFlipBro();
+                isWalking = true;
+                anim.SetBool("isWalking", true);
+                wingAnim.SetBool("isWalking", true);
+                wingAnim1.SetBool("isWalking", true);
             }
+
+        }*/
     }
-        /*void FixedUpdate()
+        void FixedUpdate()
         {
             if (!hasBreak)
             {
@@ -120,11 +128,22 @@ public class MOVE : MonoBehaviour
                 {
                     return;
                 }
-            
+
+            if (canWalk)
+            {
+                currentYVelocity = playerrb.velocity.y;
+                //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+                //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
+                playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
+
+
+
             }
 
+        }
 
-        }*/
+
+        }
         //groundcheck
         private void OnCollisionEnter(Collision collision)
         {
