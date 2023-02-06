@@ -15,6 +15,7 @@ public class TimeCounter : MonoBehaviour
     private void Start()
     {
         Highscore = PlayerPrefs.GetFloat("Highscore");
+        Highscore = Mathf.Round(Highscore*100)/100; 
         Highscoretxt.text = "Highscore: " + Highscore.ToString(); 
     }
   
