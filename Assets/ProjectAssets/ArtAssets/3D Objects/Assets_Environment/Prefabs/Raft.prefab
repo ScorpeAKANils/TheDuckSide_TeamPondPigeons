@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 21493761355726365}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Raft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 9158154479503594618}
   - component: {fileID: 1960619736900574109}
   - component: {fileID: 7983625921422877490}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plank11.
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 4186262864917147907}
   - component: {fileID: 7033120012476343742}
   - component: {fileID: 3841276094013050189}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trunkj6
   m_TagString: Untagged
   m_Icon: {fileID: 0}

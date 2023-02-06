@@ -62,8 +62,8 @@ Transform:
   m_GameObject: {fileID: 6839139793719661042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 160.86, y: 10.16, z: 99980.7}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 723100902959774470}
   m_Father: {fileID: 0}
@@ -146,12 +146,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccd2fd194095415ba1572fc6e580427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoverPos: {fileID: 0}
   bullet: {fileID: 1128983752991151049, guid: c3217b26e2d064bb4892f887f8e6e343, type: 3}
   rifleMuzzle: {fileID: 723100902959774470}
   ShootPos: {fileID: 0}
   despawnTime: 0
   Player: {fileID: 0}
+  enemyMuzzleFlash: {fileID: 0}
 --- !u!65 &6014183230285106641
 BoxCollider:
   m_ObjectHideFlags: 0
