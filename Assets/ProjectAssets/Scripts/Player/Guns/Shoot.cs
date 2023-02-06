@@ -9,7 +9,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] Transform m_GunObj;
     [SerializeField] Rigidbody m_Player;
     [SerializeField] Transform m_PlayerPos;
-    [SerializeField] Animator  muzzleFlash; 
+    [SerializeField] Animator  muzzleFlash;
+    [SerializeField] AudioSource fire;
     //bullet Object 
     [SerializeField]GameObject Bullet;
     float GunDir;
@@ -27,7 +28,8 @@ public class Shoot : MonoBehaviour
     float currentCoolDown = 0f;
     int BigShootCounter=1;
     [SerializeField] GroundCheck Groundcheck; 
-    [SerializeField] Slider GunCoolDownSlider; 
+    [SerializeField] Slider GunCoolDownSlider;
+    [SerializeField] AudioClip firesound; 
  float time; 
 
     // Update is called once per frame
@@ -92,6 +94,7 @@ public class Shoot : MonoBehaviour
     private void shoot()
     {
         reloaded = false;
+        fire.PlayOneShot(firesound);
         muzzleFlash.SetTrigger("Fire"); 
         //spawnen der Bullet
         var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
@@ -102,7 +105,8 @@ public class Shoot : MonoBehaviour
 
     void BigShoot()
     {
-        //spawnen der Bullet
+            //spawnen der Bullet
+            fire.PlayOneShot(firesound);
             muzzleFlash.SetTrigger("Fire");
             var bullet = Instantiate(Bullet, Gun.position, Gun.rotation);
             m_Player.velocity = Vector3.up * 45f;
@@ -144,4 +148,6 @@ public class Shoot : MonoBehaviour
         // Debug.Log("ReloadTime: " + reloadTime);
         BigShotReady = true;
     }
+
+
 }

@@ -15,7 +15,9 @@ public class PlayerHealth : MonoBehaviour
     public Sprite lifeSprite;
     int sceneIndex;
     float fullDamage;
-    Animator playerAnim; 
+    Animator playerAnim;
+    AudioSource playAudio;
+    public AudioClip quack; 
     [SerializeField] GameObject DeathScreenIMG;
     private void Awake()
     {
@@ -27,12 +29,14 @@ public class PlayerHealth : MonoBehaviour
     {
         player_health = max_player_health;
         healthSprites = (int)max_player_health;
+        playAudio = this.GetComponent<AudioSource>();
     }
 
     public void GetDamage(float damage)
     {
         if (vulnerable)
         {
+            playAudio.PlayOneShot(quack); 
             StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
             player_health -= damage * damageMultiplier;  //take damage
             Debug.Log("PlayerHealth: " + player_health);
@@ -54,6 +58,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (vulnerable)
         {
+            playAudio.PlayOneShot(quack);
             StartCoroutine(invulnerabilityFrame()); // invulnerable after taking damage
             player_health -= damage;  //take damage
             Debug.Log("PlayerHealth: " + player_health);

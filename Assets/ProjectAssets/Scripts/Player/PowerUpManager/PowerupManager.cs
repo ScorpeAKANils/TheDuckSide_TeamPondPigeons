@@ -10,6 +10,8 @@ public class PowerupManager : MonoBehaviour
     private float tripleShotBuffDuration = 15.0f;
     private float movementSpeedBuffDuration = 15.0f;
     private float movementSpeedBuffed = 40.0f;
+    [SerializeField] AudioClip PowerUpSound;
+    [SerializeField] AudioSource PlayerAudio; 
    PlayerHealth healthscript;
     MOVE movescript;
     Shoot shootscript;
@@ -27,36 +29,43 @@ public class PowerupManager : MonoBehaviour
 
         if (other.CompareTag("smallHeal"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             other.gameObject.SetActive(false);
             smallHeal();
         }
         if (other.CompareTag("fullHeal"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             fullHeal();
             other.gameObject.SetActive(false);
         }
         if (other.CompareTag("invulnerability"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             invulnerability();
             other.gameObject.SetActive(false);
         }
         if (other.CompareTag("reducedDamage"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             reducedDamage();
             other.gameObject.SetActive(false);
         }
         if (other.CompareTag("movementSpeed"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             movementSpeed();
             other.gameObject.SetActive(false);
         }
         if (other.CompareTag("tripleShot"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             tripleShot();
             other.gameObject.SetActive(false);
         }
         if (other.CompareTag("invincibility"))
         {
+            PlayerAudio.PlayOneShot(PowerUpSound, 0.5f);
             invincibility();
             other.gameObject.SetActive(false);
         }

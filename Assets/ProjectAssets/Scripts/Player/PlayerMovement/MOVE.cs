@@ -40,7 +40,9 @@ public class MOVE : MonoBehaviour
     GroundCheck gC; 
     [SerializeField] GameObject[] Menu;
     bool hasBreak = false;
-    [SerializeField] MainMenue main; 
+    [SerializeField] MainMenue main;
+    [SerializeField]AudioSource Stepsound;
+    [SerializeField]AudioClip[] audioClips;
     // Start is called before the first frame update
 
     void Start()
@@ -56,6 +58,9 @@ public class MOVE : MonoBehaviour
         playerrb = this.GetComponent<Rigidbody>();
         playerrb.position = this.transform.position;
         anim = GetComponent<Animator>();
+        Stepsound = this.GetComponent<AudioSource>();
+
+      
     }
     private void Update()
     {
@@ -97,11 +102,9 @@ public class MOVE : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.D))
         {
             DoFlipBro();
-            isWalking = true;
-            anim.SetBool("isWalking", true);
-            wingAnim.SetBool("isWalking", true);
-            wingAnim1.SetBool("isWalking", true);
         }
+    
+   
         /*if (canWalk)
         {
             currentYVelocity = playerrb.velocity.y;
@@ -124,6 +127,13 @@ public class MOVE : MonoBehaviour
         {
             if (!hasBreak)
             {
+            if (horizontal != 0)
+            {
+                isWalking = true;
+                anim.SetBool("isWalking", true);
+                wingAnim.SetBool("isWalking", true);
+                wingAnim1.SetBool("isWalking", true);
+            }
                 if (isDashing)
                 {
                     return;
@@ -131,7 +141,7 @@ public class MOVE : MonoBehaviour
 
             if (canWalk)
             {
-                currentYVelocity = playerrb.velocity.y;
+            
                 //m_Move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
                 //playerrb.velocity = new Vector2(horizontal * playerMovementSpeed, playerrb.velocity.y);
                 playerrb.AddForce(horizontal * playerMovementSpeed * Time.deltaTime * Player.right);
@@ -200,6 +210,16 @@ public class MOVE : MonoBehaviour
             DashAllowed = true;
 
         }
+
+    public void StepSound()
+    {
+        Stepsound.PlayOneShot(audioClips[0]); 
+    }
+
+    public void JumpSound()
+    {
+        Stepsound.PlayOneShot(audioClips[1]);
+    }
 
     }
 
