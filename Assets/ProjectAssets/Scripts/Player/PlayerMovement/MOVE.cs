@@ -20,7 +20,7 @@ public class MOVE : MonoBehaviour
     [SerializeField] float m_DashForce = 2f;
     bool DashAllowed = true;
     [SerializeField] Animator wingAnim;
-    bool MovesRight = true;
+    public bool MovesRight = true;
     [SerializeField] GameObject Wing;
     [SerializeField] Animator wingAnim1;
     [SerializeField] GameObject Wing1;
@@ -80,7 +80,7 @@ public class MOVE : MonoBehaviour
                 wingAnim.SetBool("isWalking", false);
                 wingAnim1.SetBool("isWalking", false);
             }
-            if (Input.GetKeyDown(KeyCode.R) && DashAllowed)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && DashAllowed)
             {
                 StartCoroutine(DashDuration());
             }

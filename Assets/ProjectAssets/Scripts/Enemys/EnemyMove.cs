@@ -10,12 +10,12 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform[] WayPoints;
     public int index = 0; //index für den Waypoint, damit der gegner weiß, wo er hin muss 
     [SerializeField] Transform Player;
-    PlayerHealth m_health; 
+    PlayerHealth m_health;
     Vector3 PlayerPos;
     [Tooltip("Is the WayPoint on the Left or right side of the Enemy?")]
-    float WayPointDir; 
+    float WayPointDir;
     //geschwindigkeit gegner
-   [SerializeField] private float basespeed = 10f;
+    [SerializeField] private float basespeed = 10f;
     private float speed;
     //legt fest ob der gegner angreift
     bool attack = false;
@@ -26,25 +26,27 @@ public class EnemyMove : MonoBehaviour
     float PlayerDirection;
     public bool WallDetected;
     [Tooltip("Distance which defines, when the enemy should attack the player")]
-    [SerializeField]float EnemyAttackDistance =35f;
+    [SerializeField] float EnemyAttackDistance = 35f;
     //Base value of the attack distance; 
     float EADbase;
     [Tooltip("distance that defines, when the enemy should stop hounting the player")]
     [SerializeField] float GoesBackToPatrol = 45f;
-    float GBPBase; 
-    [SerializeField]LayerMask LayerToCheck;
+    float GBPBase;
+    [SerializeField] LayerMask LayerToCheck;
     [Tooltip("The Eye of the Enemy. It is not placed on the hight of the visible eyes, to detect lower Obstacles")]
     [SerializeField] Transform EnemyEye;
     bool canFlip;
-    Vector3 localScale; 
-
+    Vector3 localScale;
+    [SerializeField] AudioClip[] audio;
+    AudioSource audioSource;
     private void Start()
     {
+        audioSource = this.GetComponent<AudioSource>();
         speed = basespeed;
         EADbase = EnemyAttackDistance;
-        GBPBase = GoesBackToPatrol; 
+        GBPBase = GoesBackToPatrol;
         stickHunterAnimator = GetComponent<Animator>();
-        m_health = Player.gameObject.GetComponent<PlayerHealth>(); 
+        m_health = Player.gameObject.GetComponent<PlayerHealth>();
     }
 
 
@@ -52,13 +54,13 @@ public class EnemyMove : MonoBehaviour
     {
         if (m_health.player_health <= 0)
         {
-            return; 
+            return;
         }
         PlayerPos = new Vector3(Player.position.x, transform.position.y, transform.position.z);
         PlayerDirection = Player.position.x - transform.position.x;
 
 
-        WayPointDir = WayPoints[index].position.x - this.transform.position.x; 
+        WayPointDir = WayPoints[index].position.x - this.transform.position.x;
 
 
     }
@@ -74,9 +76,10 @@ public class EnemyMove : MonoBehaviour
         {
             //wenn nicht, dann soll er dahin gehen 
             moveToPos();
-        }else  if (this.transform.position == WayPoints[index].position && attack == false)
+        }
+        else if (this.transform.position == WayPoints[index].position && attack == false)
         {
-            isOnPoint = true; 
+            isOnPoint = true;
             GetPos();
         }
         //wenn der Spieler in der nähe, greife an
@@ -86,7 +89,7 @@ public class EnemyMove : MonoBehaviour
             EnemyAttackDistance = EADbase;
             GoesBackToPatrol = GBPBase;
         }
-        DoFlipBro(); 
+        DoFlipBro();
         //switches to attackanimation and stops movement when in range of player
         if (Vector3.Distance(transform.position, Player.transform.position) < 2f)
         {
@@ -105,7 +108,7 @@ public class EnemyMove : MonoBehaviour
         if (Physics.Raycast(EnemyEye.position, EnemyEye.TransformDirection(Vector3.right), out sight, 15f, LayerToCheck))
         {
             WallDetected = true;
-            attack = false; 
+            attack = false;
             EnemyAttackDistance = 5f;
             GoesBackToPatrol = 10f;
             canFlip = true;
@@ -121,8 +124,8 @@ public class EnemyMove : MonoBehaviour
 
         //gegner greift an
         if (attack && !WallDetected)
-        { 
-            transform.position = Vector3.MoveTowards(transform.position, PlayerPos, (speed*Time.deltaTime));
+        {
+            transform.position = Vector3.MoveTowards(transform.position, PlayerPos, (speed * Time.deltaTime));
         }
         //spieler hat den Usain Bolt gemacht, und ist zu weit weg? gehe wieder über zur patrollie 
         if (Vector3.Distance(transform.position, Player.transform.position) > GoesBackToPatrol)
@@ -130,7 +133,7 @@ public class EnemyMove : MonoBehaviour
             attack = false;
         }
     }
-    
+
     void GetPos()
     {
         //if (WallDetected)
@@ -178,16 +181,16 @@ public class EnemyMove : MonoBehaviour
         //}
 
 
-            //Debug.Log("nice, endlich da");
-            //isOnPoint = true;
-            index++;
-            if (index == WayPoints.Length)
-            {
-                index = 0;
-            }
-            isOnPoint = false; 
-            //Debug.Log("ich gehe zu Punkt: " + index);
-        
+        //Debug.Log("nice, endlich da");
+        //isOnPoint = true;
+        index++;
+        if (index == WayPoints.Length)
+        {
+            index = 0;
+        }
+        isOnPoint = false;
+        //Debug.Log("ich gehe zu Punkt: " + index);
+
 
 
 
@@ -235,19 +238,20 @@ public class EnemyMove : MonoBehaviour
 
     void DoFlipBro()
     {
-        canFlip = true; 
+        canFlip = true;
         if (canFlip)
         {
             if (PlayerDirection < 0 && attack)
             {
-                canFlip = false; 
+                canFlip = false;
                 this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
             }
             else if (PlayerDirection > 0 && attack)
             {
                 canFlip = false;
                 this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            }else if (WayPointDir < 0 && !attack)
+            }
+            else if (WayPointDir < 0 && !attack)
             {
                 canFlip = false;
                 this.GetComponent<Transform>().transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
@@ -258,7 +262,18 @@ public class EnemyMove : MonoBehaviour
                 this.GetComponent<Transform>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             }
 
-           
+
         }
+    }
+
+    public void SchlagSound()
+    {
+        audioSource.PlayOneShot(audio[0]);
+    }
+
+
+    public void LaufSound()
+    {
+        audioSource.PlayOneShot(audio[1]);
     }
 }

@@ -17,7 +17,9 @@ public class PlayerHealth : MonoBehaviour
     float fullDamage;
     Animator playerAnim;
     AudioSource playAudio;
-    public AudioClip quack; 
+    public AudioClip quack;
+    [SerializeField] AudioSource DeathMucke;
+    [SerializeField] AudioSource anderemucke;
     [SerializeField] GameObject DeathScreenIMG;
     private void Awake()
     {
@@ -78,7 +80,8 @@ public class PlayerHealth : MonoBehaviour
 
     void deathScreen()
     {
-
+        DeathMucke.Play();
+        anderemucke.Stop(); 
         Time.timeScale = 0; 
         DeathScreenIMG.SetActive(true);
         Cursor.visible = true;

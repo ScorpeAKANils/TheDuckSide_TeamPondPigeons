@@ -7,6 +7,7 @@ using TMPro;
 public class Settings : MonoBehaviour
 {
     public AudioMixer MusicMix;
+    public AudioMixer SoundMix;
     Resolution[] resolutions;
     [SerializeField] TMP_Dropdown ResDropDown;
     int currentRes = 0;
@@ -35,6 +36,11 @@ public class Settings : MonoBehaviour
     public void MusicVolume(float MusicVol)
     {
         MusicMix.SetFloat("MusicVol", MusicVol); 
+    }
+
+    public void SoundVolume(float SoundVol)
+    {
+        SoundMix.SetFloat("SoundVol", SoundVol);
     }
 
     public void SetQuality(int QualityIndex)

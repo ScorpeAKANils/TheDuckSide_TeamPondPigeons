@@ -21,7 +21,8 @@ public class EnemyShootAndCover : MonoBehaviour
     Transform EnemyPos; 
     //[SerializeField] Transform PlayerPos;
     Animator rifleHunterAnimator;
-    [SerializeField] Animator enemyMuzzleFlash; 
+    [SerializeField] Animator enemyMuzzleFlash;
+    AudioSource AudioEnemy;
 
     bool shootAble = true;
     // Start is called before the first frame update
@@ -39,6 +40,7 @@ public class EnemyShootAndCover : MonoBehaviour
         //CoverSize = new Vector3(0.5f, 0.25f, 0.5f);
         //ShootSize = EnemySize.localScale;
         rifleHunterAnimator = GetComponent<Animator>();
+        AudioEnemy = this.GetComponent<AudioSource>(); 
     }
 
     void Update()
@@ -108,6 +110,7 @@ public class EnemyShootAndCover : MonoBehaviour
 */
     void shoot()
     {
+
         enemyMuzzleFlash.SetTrigger("Fire");
         var Bullet = Instantiate(bullet, rifleMuzzle.position, rifleMuzzle.rotation);
         Bullet.GetComponent<Rigidbody>().AddForce(rifleMuzzle.forward * 50f, ForceMode.VelocityChange);
@@ -135,4 +138,9 @@ public class EnemyShootAndCover : MonoBehaviour
         standUpAllowed = true;
     }
     */
+
+    public void ShootEnemySound()
+    {
+        AudioEnemy.Play(); 
+    }
 }

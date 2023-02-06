@@ -29,8 +29,7 @@ public class MainMenue : MonoBehaviour
         {
             Time.timeScale = 0.000000f;
            //Debug.Log(Time.deltaTime);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true; 
+
             hasBreak = true;    
             foreach (GameObject game in m_MenuStuff)
             {
@@ -40,8 +39,7 @@ public class MainMenue : MonoBehaviour
         {
             Time.timeScale = 1f;
             hasBreak = false; 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+
             CloseMenu();
         }
     }
