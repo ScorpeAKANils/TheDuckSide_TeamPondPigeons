@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ProjectAssets/Scenes/BugFixingNilsOnly/BugFestbeenden.unity
     guid: 9df8dc51e7d174f059542162a9366898
-  - enabled: 1
+  - enabled: 0
     path: Assets/ProjectAssets/Scenes/BugFixingNilsOnly/LevelFinalDevTest.unity
     guid: 5c9d6c0457f71462cb795b6ff7bdf85e
+  - enabled: 1
+    path: Assets/ProjectAssets/Scenes/Level_Final.unity
+    guid: ca47c61ec493efc48a57244154b2c9c6
   m_configObjects: {}

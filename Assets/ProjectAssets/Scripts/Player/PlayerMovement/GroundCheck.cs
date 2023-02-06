@@ -8,7 +8,8 @@ public class GroundCheck : MonoBehaviour
     [SerializeField] GameObject m_Player;
     BoxCollider m_Col;
     bool needParent=true;
-    public bool isOnPlattform = false; 
+    public bool isOnPlattform = false;
+    public bool canBigShoot; 
     
 
 
@@ -20,12 +21,16 @@ public class GroundCheck : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Map")&& other.gameObject.GetComponent<movingPlattform>() && needParent)
+        if (other.CompareTag("Map"))
         {
-            isOnPlattform = true; 
-            //Debug.Log("Yay, hab meine eltern gefunden!");
-            m_Player.transform.parent = other.gameObject.transform;
-            needParent = false; 
+            canBigShoot = true; 
+            if (other.gameObject.GetComponent<movingPlattform>() && needParent)
+            {
+                isOnPlattform = true;
+                //Debug.Log("Yay, hab meine eltern gefunden!");
+                m_Player.transform.parent = other.gameObject.transform;
+                needParent = false;
+            }
         }
     }
 
@@ -33,6 +38,7 @@ public class GroundCheck : MonoBehaviour
     {
         if (other.CompareTag("Map"))
         {
+            canBigShoot = false; 
             if (other.gameObject.GetComponent<movingPlattform>())
             {
                 isOnPlattform = false;

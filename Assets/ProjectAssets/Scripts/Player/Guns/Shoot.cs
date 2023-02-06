@@ -24,8 +24,9 @@ public class Shoot : MonoBehaviour
     [Tooltip("Value of the Slider when it is fully charged")]
     float maxCoolDown = 0.75f;
     [Tooltip("current value of the slider")]
-    float currentCoolDown = 0f; 
-
+    float currentCoolDown = 0f;
+    int BigShootCounter=1;
+    [SerializeField] GroundCheck Groundcheck; 
     [SerializeField] Slider GunCoolDownSlider; 
  float time; 
 
@@ -35,7 +36,12 @@ public class Shoot : MonoBehaviour
 
 
         GunDir = m_GunObj.localRotation.z;
-        PlayerDir = m_PlayerPos.rotation.y; 
+        PlayerDir = m_PlayerPos.rotation.y;
+        Debug.Log("Y geschwndigkeit Player: " + m_Player.velocity.y);
+        if (Groundcheck.canBigShoot == true && m_Player.velocity.y <= 0)
+        {
+            BigShootCounter = 1; 
+        }
        
         //abfragen ob Linke Maustaste gedrückt wurde
         if (reloaded)
@@ -73,10 +79,11 @@ public class Shoot : MonoBehaviour
 
         GunCoolDownSlider.value = currentCoolDown / maxCoolDown;
 
-        if (Input.GetButtonDown("Fire2") && BigShotReady)
+        if (Input.GetButtonDown("Fire2") && BigShootCounter==1)
         {
-            if (GunDir > 0.3f || GunDir < -0.3f)
+            if (GunDir < -0.3f)
             {
+                BigShootCounter -= 1; 
                 StartCoroutine(bigShootRoutine());
             }
         }
