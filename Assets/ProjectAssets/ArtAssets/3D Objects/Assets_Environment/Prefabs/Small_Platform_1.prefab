@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4294210217255209434}
   - component: {fileID: 7757460324985460719}
   - component: {fileID: 6275531759341982016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: <>FlyDown(2) (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 1639852351440071784}
   - component: {fileID: 5543071134733488410}
   - component: {fileID: 3614901533229492372}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: <>FlyDown(2) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 8040511222062820491}
   - component: {fileID: 4165747555460641355}
   - component: {fileID: 4981854396666341903}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Small_Platform_1
   m_TagString: Map
   m_Icon: {fileID: 0}
