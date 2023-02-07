@@ -9,6 +9,8 @@ public class MainMenue : MonoBehaviour
     [SerializeField] GameObject[] m_Stats;
     [SerializeField] GameObject[] m_Option;
     [SerializeField] GameObject[] m_Sound;
+    [SerializeField] GameObject[] m_Controls;
+
     [SerializeField] GameObject[] m_Graphics;
     [SerializeField] TextMeshProUGUI killCounterTXT;
     [SerializeField] TextMeshProUGUI HighscoreTXT;
@@ -25,23 +27,28 @@ public class MainMenue : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !hasBreak)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            Time.timeScale = 0.000000f;
-           //Debug.Log(Time.deltaTime);
-
-            hasBreak = true;    
-            foreach (GameObject game in m_MenuStuff)
+            if (Input.GetKeyDown(KeyCode.Escape) && !hasBreak)
             {
-                game.SetActive(true);
-            }
-        }else if (Input.GetKeyDown(KeyCode.Escape) && hasBreak)
-        {
-            Time.timeScale = 1f;
-            hasBreak = false; 
+                Time.timeScale = 0.000000f;
+                //Debug.Log(Time.deltaTime);
 
-            CloseMenu();
+                hasBreak = true;
+                foreach (GameObject game in m_MenuStuff)
+                {
+                    game.SetActive(true);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && hasBreak)
+            {
+                Time.timeScale = 1f;
+                hasBreak = false;
+
+                CloseMenu();
+            }
         }
+     
     }
     //start Button
     public void Level1()
@@ -87,6 +94,10 @@ public class MainMenue : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void BackToIGM()
@@ -111,6 +122,11 @@ public class MainMenue : MonoBehaviour
         {
             Option.SetActive(false);
         }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Options()
@@ -129,6 +145,11 @@ public class MainMenue : MonoBehaviour
         foreach (GameObject menu in m_MenuStuff)
         {
             menu.SetActive(false);
+        }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -154,6 +175,11 @@ public class MainMenue : MonoBehaviour
         {
             Option.SetActive(false);
         }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void GraphicSettings()
@@ -178,6 +204,11 @@ public class MainMenue : MonoBehaviour
         {
             Option.SetActive(false);
         }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void BackToSettings()
@@ -201,6 +232,11 @@ public class MainMenue : MonoBehaviour
         foreach (GameObject Option in m_Option)
         {
             Option.SetActive(true);
+        }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
         }
     }
     public void BackToMainMenue()
@@ -236,6 +272,11 @@ public class MainMenue : MonoBehaviour
         {
             Option.SetActive(false);
         }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Restartlevel()
@@ -246,8 +287,38 @@ public class MainMenue : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     }
-    public void Exit()
+
+    public void Controls()
+    {
+        foreach (GameObject Graphics in m_Graphics)
+        {
+            Graphics.SetActive(false);
+        }
+
+        foreach (GameObject menu in m_MenuStuff)
+        {
+            menu.SetActive(false);
+        }
+
+        foreach (GameObject sound in m_Sound)
+        {
+            sound.SetActive(false);
+        }
+
+
+        foreach (GameObject Option in m_Option)
+        {
+            Option.SetActive(false);
+        }
+
+        foreach (GameObject gameObject in m_Controls)
+        {
+            gameObject.SetActive(true);
+        }
+    }
+        public void Exit()
     {
      Application.Quit(); 
     }
 }
+ 
