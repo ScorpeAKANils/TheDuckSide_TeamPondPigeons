@@ -44,7 +44,6 @@ public class MainMenue : MonoBehaviour
             {
                 Time.timeScale = 1f;
                 hasBreak = false;
-
                 CloseMenu();
             }
         }
@@ -251,7 +250,6 @@ public class MainMenue : MonoBehaviour
     public void CloseMenu()
     {
         Time.timeScale = 1f;
-        Cursor.visible = false;
         foreach (GameObject Graphics in m_Graphics)
         {
             Graphics.SetActive(false);
