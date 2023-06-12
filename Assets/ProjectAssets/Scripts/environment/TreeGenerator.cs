@@ -63,10 +63,6 @@ public class TreeGenerator : MonoBehaviour
                     GenerateOaks();
                     OakCount++;
                 }
-                else
-                {
-
-                }
             }
         }
         else
